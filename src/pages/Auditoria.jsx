@@ -49,11 +49,12 @@ export default function Auditoria() {
   const [page, setPage] = useState(1);
   const { sort, onSort } = useSortable('fecha', 'desc');
 
-  const { data: registros = [], isLoading } = useQuery({
+  const { data: registrosRaw, isLoading } = useQuery({
     queryKey: ['historial'],
     queryFn: () => base44.entities.HistorialMovimiento.list('-fecha', 2000),
     select: (d) => Array.isArray(d) ? d : [],
   });
+  const registros = registrosRaw ?? [];
 
   const usuarios = useMemo(() => {
     const set = new Set(registros.map(r => r.usuario_id).filter(Boolean));

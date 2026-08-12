@@ -1,6 +1,8 @@
 import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react'
 
-export default function SortTh({ colKey, label, sort, onSort, className = '', align = 'left' }) {
+export default function SortTh({ colKey, label, sort, onSort, className: classNameRaw, align: alignRaw }) {
+  const className = classNameRaw ?? ''
+  const align = alignRaw ?? 'left'
   const active = sort.key === colKey
   const icon = !active
     ? <ArrowUpDown className="w-3 h-3 opacity-30 flex-shrink-0" />

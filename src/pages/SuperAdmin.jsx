@@ -255,7 +255,7 @@ WHERE tablename IN ('mermas','inventarios') AND policyname LIKE 'superadmin%';`}
 function TabSincronizacion() {
   const { isRunning, syncState, syncOne, syncAll, lastResults } = useSyncManager();
 
-  const { data: syncLog = [] } = useQuery({
+  const { data: syncLogRaw } = useQuery({
     queryKey: ['sa-sync-log'],
     queryFn: async () => {
       const { data } = await supabase
@@ -267,13 +267,15 @@ function TabSincronizacion() {
     },
     refetchInterval: 30000,
   });
+  const syncLog = syncLogRaw ?? [];
 
-  const { data: almacenes = [] } = useQuery({
+  const { data: almacenesRaw } = useQuery({
     queryKey: ['sa-almacenes'],
     queryFn: () => fetchAlmacenes(),
   });
+  const almacenes = almacenesRaw ?? [];
 
-  const { data: schedules = [] } = useQuery({
+  const { data: schedulesRaw } = useQuery({
     queryKey: ['sa-schedules'],
     queryFn: async () => {
       const { data } = await supabase
@@ -284,6 +286,7 @@ function TabSincronizacion() {
       return data ?? [];
     },
   });
+  const schedules = schedulesRaw ?? [];
 
 
   const groupedLog = syncLog.reduce((acc, row) => {
@@ -478,7 +481,7 @@ function TabLogsSinc() {
   const [expandedCausa, setExpandedCausa] = useState(null);
   const [searchQ, setSearchQ]             = useState('');
 
-  const { data: rawLogs = [], isLoading, refetch, isFetching } = useQuery({
+  const { data: rawLogsRaw, isLoading, refetch, isFetching } = useQuery({
     queryKey: ['sa-logs-sync'],
     queryFn: async () => {
       const { data } = await supabase
@@ -491,6 +494,7 @@ function TabLogsSinc() {
       return data ?? [];
     },
   });
+  const rawLogs = rawLogsRaw ?? [];
 
   // Parsear y aplanar todos los errores (usa `failures` completo si existe, sino `muestra`)
   const logs = rawLogs.map(r => {
@@ -957,13 +961,14 @@ function TabUsuarios({ confirmDialog }) {
   const [searchQ, setSearchQ] = useState('');
   const [createError, setCreateError] = useState('');
 
-  const { data: usuarios = [] } = useQuery({
+  const { data: usuariosRaw } = useQuery({
     queryKey: ['sa-usuarios'],
     queryFn: async () => {
       const { data } = await supabase.from('usuarios').select('*').order('created_date', { ascending: false });
       return data ?? [];
     },
   });
+  const usuarios = usuariosRaw ?? [];
 
   const updateMut = useMutation({
     mutationFn: ({ id, data }) => supabase.from('usuarios').update(data).eq('id', id),
@@ -1077,21 +1082,23 @@ function TabAuditoria() {
   const [searchQ, setSearchQ] = useState('');
   const [filtroTabla, setFiltroTabla] = useState('all');
 
-  const { data: eventos = [], isLoading } = useQuery({
+  const { data: eventosRaw, isLoading } = useQuery({
     queryKey: ['sa-auditoria'],
     queryFn: async () => {
       const { data } = await supabase.from('workflow_eventos').select('*').order('created_at', { ascending: false }).limit(300);
       return data ?? [];
     },
   });
+  const eventos = eventosRaw ?? [];
 
-  const { data: adminLog = [] } = useQuery({
+  const { data: adminLogRaw } = useQuery({
     queryKey: ['sa-admin-log'],
     queryFn: async () => {
       const { data } = await supabase.from('admin_audit_log').select('*').order('created_at', { ascending: false }).limit(100);
       return data ?? [];
     },
   });
+  const adminLog = adminLogRaw ?? [];
 
   const tablas = ['all', ...new Set(eventos.map(e => e.tabla))];
   const filtered = eventos.filter(e => {

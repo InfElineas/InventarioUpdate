@@ -50,18 +50,20 @@ export default function Inventario() {
   const { data: user } = useQuery({ queryKey: ['currentUser'], queryFn: () => base44.auth.me() });
   const role = user?.role || 'inv';
 
-  const { data: inventarios = [], isLoading } = useQuery({
+  const { data: inventariosRaw, isLoading } = useQuery({
     queryKey: ['inventarios'],
     queryFn: () => base44.entities.Inventario.list('-created_date', 200),
     select: (d) => Array.isArray(d) ? d : [],
     refetchInterval: 30_000,
   });
+  const inventarios = inventariosRaw ?? [];
 
-  const { data: productos = [] } = useQuery({
+  const { data: productosRaw } = useQuery({
     queryKey: ['productos'],
     queryFn: () => base44.entities.Producto.list('-updated_date', 500),
     select: (d) => Array.isArray(d) ? d : [],
   });
+  const productos = productosRaw ?? [];
 
   const bajoMinimoCount = productos.filter(p =>
     p.activo !== false &&
@@ -278,7 +280,8 @@ export default function Inventario() {
   );
 }
 
-function InventarioDetail({ inv, role, user, onUpdate, onDelete, onClose, isUpdating = false }) {
+function InventarioDetail({ inv, role, user, onUpdate, onDelete, onClose, isUpdating: isUpdatingRaw }) {
+  const isUpdating = isUpdatingRaw ?? false;
   const [factData, setFactData] = useState({ fact_no_factura: '', fact_clasif: '', fact_notas: '', fact_estado: '' });
   const [auditorNota, setAuditorNota] = useState('');
   const [nuevoConteo, setNuevoConteo] = useState(String(inv.conteo_real ?? ''));

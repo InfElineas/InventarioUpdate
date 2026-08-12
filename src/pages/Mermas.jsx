@@ -26,12 +26,13 @@ export default function Mermas() {
   const { data: user } = useQuery({ queryKey: ['currentUser'], queryFn: () => base44.auth.me() });
   const role = user?.role || 'inv';
 
-  const { data: mermas = [], isLoading } = useQuery({
+  const { data: mermasRaw, isLoading } = useQuery({
     queryKey: ['mermas'],
     queryFn: () => base44.entities.Merma.list('-created_date', 200),
     select: (d) => Array.isArray(d) ? d : [],
     refetchInterval: 30_000,
   });
+  const mermas = mermasRaw ?? [];
 
   const createMut = useMutation({
     mutationFn: (data) => base44.entities.Merma.create(data),

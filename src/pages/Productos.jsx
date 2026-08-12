@@ -218,7 +218,8 @@ function useDebounced(value, delay = 400) {
   return debounced;
 }
 
-function SearchableSelect({ value, onChange, options, placeholder, maxWidth = 'max-w-[160px]' }) {
+function SearchableSelect({ value, onChange, options, placeholder, maxWidth: maxWidthRaw }) {
+  const maxWidth = maxWidthRaw ?? 'max-w-[160px]';
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const ref = useRef(null);
@@ -273,7 +274,8 @@ function SearchableSelect({ value, onChange, options, placeholder, maxWidth = 'm
 }
 
 // ── Main component ────────────────────────────────────────────
-export default function Productos({ initialSource = 'tkc' }) {
+export default function Productos({ initialSource: initialSourceRaw }) {
+  const initialSource = initialSourceRaw ?? 'tkc';
   const { user } = useAuth();
   const { almacen, setAlmacen, almacenesConfig } = useAlmacen();
   const queryClient = useQueryClient();
@@ -332,12 +334,13 @@ export default function Productos({ initialSource = 'tkc' }) {
   );
 
   // ── ELíneas productos ──────────────────────────────────────
-  const { data: productos = [], isLoading: loadingEL } = useQuery({
+  const { data: productosRaw, isLoading: loadingEL } = useQuery({
     queryKey: ['productos', almacen],
     queryFn: () => almacen ? fetchAllProductos(almacen) : [],
     select: (d) => Array.isArray(d) ? d : [],
     enabled: Boolean(almacen),
   });
+  const productos = productosRaw ?? [];
 
   // ── TKC productos (lectura directa del DataTables de TKC) ──
   // Paginado en servidor: cada cambio de página, búsqueda u orden es una
@@ -469,7 +472,7 @@ export default function Productos({ initialSource = 'tkc' }) {
   });
 
   // ── Failure history ────────────────────────────────────────
-  const { data: failureHistory = [] } = useQuery({
+  const { data: failureHistoryRaw } = useQuery({
     queryKey: ['sync_failures_history', almacen],
     queryFn: async () => {
       const { data } = await supabase
@@ -489,9 +492,10 @@ export default function Productos({ initialSource = 'tkc' }) {
     enabled: Boolean(almacen),
     staleTime: 30_000,
   });
+  const failureHistory = failureHistoryRaw ?? [];
 
   // ── Suministradores y categorías ──────────────────────────
-  const { data: suministradores = [] } = useQuery({
+  const { data: suministradoresRaw } = useQuery({
     queryKey: ['filter-suministradores'],
     queryFn: async () => {
       const rows = await fetchAllRows(
@@ -503,8 +507,9 @@ export default function Productos({ initialSource = 'tkc' }) {
     staleTime: 15 * 60 * 1000,
     select: d => Array.isArray(d) ? d : [],
   });
+  const suministradores = suministradoresRaw ?? [];
 
-  const { data: categorias = [] } = useQuery({
+  const { data: categoriasRaw } = useQuery({
     queryKey: ['filter-categorias'],
     queryFn: async () => {
       const rows = await fetchAllRows(
@@ -516,6 +521,7 @@ export default function Productos({ initialSource = 'tkc' }) {
     staleTime: 15 * 60 * 1000,
     select: d => Array.isArray(d) ? d : [],
   });
+  const categorias = categoriasRaw ?? [];
 
   // ── ELíneas computed ───────────────────────────────────────
   const counts = useMemo(() => ({

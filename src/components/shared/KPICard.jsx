@@ -1,4 +1,6 @@
-export default function KPICard({ title, value, icon: Icon, color = 'text-[#4ade80]', bgColor = 'bg-[#4ade80]/10', subtitle }) {
+export default function KPICard({ title, value, icon: Icon, color: colorRaw, bgColor: bgColorRaw, subtitle }) {
+  const color = colorRaw ?? 'text-[#4ade80]'
+  const bgColor = bgColorRaw ?? 'bg-[#4ade80]/10'
   return (
     <div className="p-5 rounded-lg bg-card border border-border">
       <div className="flex items-start justify-between mb-3">

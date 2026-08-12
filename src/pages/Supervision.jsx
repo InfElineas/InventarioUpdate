@@ -116,7 +116,7 @@ export default function Supervision() {
   };
 
   // ── Tareas del módulo activo ──
-  const { data: tasks = [], isLoading } = useQuery({
+  const { data: tasksRaw, isLoading } = useQuery({
     queryKey: ['supervision-tasks', tabla],
     queryFn: async () => {
       if (!tabla) return [];
@@ -129,9 +129,10 @@ export default function Supervision() {
     },
     enabled: !!tabla,
   });
+  const tasks = tasksRaw ?? [];
 
   // ── Comentarios del registro seleccionado ──
-  const { data: comments = [], refetch: refetchComments } = useQuery({
+  const { data: commentsRaw, refetch: refetchComments } = useQuery({
     queryKey: ['supervision-comments', tabla, selectedId],
     queryFn: async () => {
       if (!tabla || !selectedId) return [];
@@ -145,6 +146,7 @@ export default function Supervision() {
     },
     enabled: !!selectedId && !!tabla,
   });
+  const comments = commentsRaw ?? [];
 
   // ── Agregar comentario ──
   const addCommentMut = useMutation({

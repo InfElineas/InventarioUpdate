@@ -7,7 +7,8 @@ const variants = {
   success: { bg: 'bg-[#1D9E7510]', border: 'border-[#1D9E75]/20', text: 'text-[#1D9E75]', Icon: CheckCircle },
 };
 
-export default function AlertBanner({ variant = 'warning', message }) {
+export default function AlertBanner({ variant: variantRaw, message }) {
+  const variant = variantRaw ?? 'warning';
   const v = variants[variant];
   const IconComp = v.Icon;
   return (

@@ -152,20 +152,21 @@ export default function BdTkc() {
   const [page, setPage]                         = useState(1)
 
   // Lista de almacenes — filtrada por la config del usuario
-  const { data: allAlmacenes = [], isLoading: loadingAlmacenes } = useQuery({
+  const { data: allAlmacenesRaw, isLoading: loadingAlmacenes } = useQuery({
     queryKey: ['almacenes_externos'],
     queryFn:  fetchAlmacenes,
     staleTime: 10 * 60 * 1000,
     enabled:  isExternaConfigured,
     select:   (d) => Array.isArray(d) ? d : [],
   })
+  const allAlmacenes = allAlmacenesRaw ?? []
   const almacenes = useMemo(
     () => filterAlmacenesByConfig(allAlmacenes, almacenesConfig),
     [allAlmacenes, almacenesConfig]
   )
 
   // Productos del almacén — consulta directa a BD externa, sin sync local
-  const { data: productos = [], isLoading: loadingProductos } = useQuery({
+  const { data: productosRaw, isLoading: loadingProductos } = useQuery({
     queryKey: ['bd_tkc_ext', almacenSel],
     queryFn: () => fetchProductosExterno(almacenSel),
     select:  (d) => Array.isArray(d) ? d : [],
@@ -173,9 +174,10 @@ export default function BdTkc() {
     staleTime: 5 * 60 * 1000,   // 5 min — no re-fetch automático
     gcTime:    10 * 60 * 1000,
   })
+  const productos = productosRaw ?? []
 
   // Historial de fallidos del almacén seleccionado
-  const { data: failureHistory = [] } = useQuery({
+  const { data: failureHistoryRaw } = useQuery({
     queryKey: ['sync_failures_history', almacenSel],
     queryFn: async () => {
       const { data } = await supabase
@@ -202,6 +204,7 @@ export default function BdTkc() {
     enabled: Boolean(almacenSel),
     staleTime: 30_000,
   })
+  const failureHistory = failureHistoryRaw ?? []
 
   // Enriquecer
   const enriched = useMemo(() => productos.map(p => {

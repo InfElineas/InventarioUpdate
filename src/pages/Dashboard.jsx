@@ -386,13 +386,14 @@ export default function Dashboard() {
   const [kpiModal, setKpiModal]       = useState(null)   // null | 'conStock' | 'enTienda' | ...
   const { almacen, setAlmacen, almacenesConfig } = useAlmacen()
 
-  const { data: allAlmacenes = [] } = useQuery({
+  const { data: allAlmacenesRaw } = useQuery({
     queryKey: ['almacenes_externos'],
     queryFn:  fetchAlmacenes,
     staleTime: 10 * 60 * 1000,
     enabled:  isExternaConfigured,
     select:   d => Array.isArray(d) ? d : [],
   })
+  const allAlmacenes = allAlmacenesRaw ?? []
   const almacenes = useMemo(
     () => filterAlmacenesByConfig(allAlmacenes, almacenesConfig),
     [allAlmacenes, almacenesConfig]
@@ -426,11 +427,12 @@ export default function Dashboard() {
   const isGlobalMode = !almacen
 
   // ── Productos ────────────────────────────────────────────
-  const { data: prodRows = [], isLoading: loadingProds } = useQuery({
+  const { data: prodRowsRaw, isLoading: loadingProds } = useQuery({
     queryKey: ['dash_prods', almacen],
     queryFn:  () => fetchAllProductos(almacen, 'almacen_num, id_tienda, exist_fisica, almacen, tienda'),
     select:   d => Array.isArray(d) ? d : [],
   })
+  const prodRows = prodRowsRaw ?? []
 
   // ── Breakdown por almacén (modo global) ──────────────────
   const almacenBreakdown = useMemo(() => {
@@ -457,7 +459,7 @@ export default function Dashboard() {
   }, [prodRows, isGlobalMode])
 
   // ── Mermas ───────────────────────────────────────────────
-  const { data: mermas = [] } = useQuery({
+  const { data: mermasRaw } = useQuery({
     queryKey: ['dash_mermas', period, customFrom, customTo, almacen],
     queryFn: async () => {
       let q = supabase.from('mermas')
@@ -470,9 +472,10 @@ export default function Dashboard() {
     },
     select: d => Array.isArray(d) ? d : [],
   })
+  const mermas = mermasRaw ?? []
 
   // ── Inventarios ──────────────────────────────────────────
-  const { data: inventarios = [] } = useQuery({
+  const { data: inventariosRaw } = useQuery({
     queryKey: ['dash_inventarios', period, customFrom, customTo, almacen],
     queryFn: async () => {
       let q = supabase.from('inventarios')
@@ -485,9 +488,10 @@ export default function Dashboard() {
     },
     select: d => Array.isArray(d) ? d : [],
   })
+  const inventarios = inventariosRaw ?? []
 
   // ── Lotes ────────────────────────────────────────────────
-  const { data: lotes = [] } = useQuery({
+  const { data: lotesRaw } = useQuery({
     queryKey: ['dash_lotes'],
     queryFn: async () => {
       const { data } = await supabase.from('lotes_vigencia')
@@ -498,6 +502,7 @@ export default function Dashboard() {
     },
     select: d => Array.isArray(d) ? d : [],
   })
+  const lotes = lotesRaw ?? []
 
   // ── Stats del almacén / globales ─────────────────────────
   const stats = useMemo(() => {

@@ -43,7 +43,8 @@ export function validateInventario({ producto, detalles, fechaInv, notas }) {
   return null;
 }
 
-export default function InventarioForm({ user, onSubmit, onCancel, isPending = false }) {
+export default function InventarioForm({ user, onSubmit, onCancel, isPending: isPendingRaw }) {
+  const isPending = isPendingRaw ?? false;
   const { almacen }         = useAlmacen();
   const [producto, setProducto] = useState(null);
   const [detalles, setDetalles] = useState([{ fecha_vencimiento: '', no_lote: '', cantidad: 0 }]);

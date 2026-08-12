@@ -25,7 +25,9 @@ const NAV = [
   { path: '/admin/usuarios', label: 'Usuarios',    icon: 'Users',           roles: ['administrador'] },
 ];
 
-export default function BottomNav({ role = 'inv', pendingCounts = {} }) {
+export default function BottomNav({ role: roleRaw, pendingCounts: pendingCountsRaw }) {
+  const role = roleRaw ?? 'inv';
+  const pendingCounts = pendingCountsRaw ?? {};
   const location = useLocation();
   const items = NAV.filter(item => item.roles.includes(role));
 

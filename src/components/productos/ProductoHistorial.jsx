@@ -80,7 +80,7 @@ function MovimientoItem({ mov }) {
 }
 
 export default function ProductoHistorial({ productoId }) {
-  const { data: movimientos = [], isLoading } = useQuery({
+  const { data: movimientosRaw, isLoading } = useQuery({
     queryKey: ['historial', productoId],
     queryFn: () => base44.entities.HistorialMovimiento.filter(
       { producto_id: productoId },
@@ -89,13 +89,15 @@ export default function ProductoHistorial({ productoId }) {
     ),
     enabled: !!productoId,
   });
+  const movimientos = movimientosRaw ?? [];
 
   // Also fetch related inventory records
-  const { data: inventarios = [] } = useQuery({
+  const { data: inventariosRaw } = useQuery({
     queryKey: ['inventarios_producto', productoId],
     queryFn: () => base44.entities.Inventario.filter({ producto_id: productoId }, '-created_date', 50),
     enabled: !!productoId,
   });
+  const inventarios = inventariosRaw ?? [];
 
   if (isLoading) {
     return (

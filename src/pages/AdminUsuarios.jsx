@@ -37,7 +37,7 @@ export default function AdminUsuarios() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { confirmDialog, ConfirmDialogNode } = useConfirm();
 
-  const { data: usuarios = [], isLoading } = useQuery({
+  const { data: usuariosRaw, isLoading } = useQuery({
     queryKey: ['admin-usuarios'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -49,6 +49,7 @@ export default function AdminUsuarios() {
       return (data ?? []).filter(u => isSuperAdmin || u.role !== 'superadmin');
     },
   });
+  const usuarios = usuariosRaw ?? [];
 
   const updateMut = useMutation({
     mutationFn: async ({ id, targetEmail, data: updateData, accion }) => {

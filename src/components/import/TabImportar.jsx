@@ -218,7 +218,8 @@ export default function TabImportar() {
     // Cargar productos para match
     let query = supabase.from('productos').select('id, id_tienda, codigo_producto')
     if (almacenNum) query = query.eq('almacen_num', almacenNum)
-    const { data: products = [], error: qErr } = await query
+    const { data: productsRaw, error: qErr } = await query
+    const products = productsRaw ?? []
     if (qErr) console.error('productos query error:', qErr)
 
     const idMap = {}; const codigoMap = {}

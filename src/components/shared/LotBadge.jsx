@@ -1,6 +1,7 @@
 import { ESTADO_FV } from '@/lib/constants';
 
-export default function LotBadge({ estado, dias, className = '' }) {
+export default function LotBadge({ estado, dias, className: classNameRaw }) {
+  const className = classNameRaw ?? '';
   const config = ESTADO_FV[estado] || ESTADO_FV.sin_fecha;
   const diasLabel = dias != null ? `${dias}d` : '';
   return (

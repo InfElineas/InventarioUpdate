@@ -13,7 +13,8 @@ import { MOTIVOS_RECONTEO, CLASIF_MERMA_SIN_FACT, ALL_CLASIF_MERMA, DESTINOS_MER
 import { logTransicion } from '@/lib/workflowService';
 import { useConfirm } from '@/lib/useConfirm';
 
-export default function MermaDetail({ merma, role, user, onUpdate, onDelete, isUpdating = false }) {
+export default function MermaDetail({ merma, role, user, onUpdate, onDelete, isUpdating: isUpdatingRaw }) {
+  const isUpdating = isUpdatingRaw ?? false;
   const [factData, setFactData] = useState({ fact_no_factura: '', fact_clasif: '', fact_notas: '', fact_estado: '' });
   const [reconteoMotivo, setReconteoMotivo] = useState('');
   const [reconteoDetalle, setReconteoDetalle] = useState('');

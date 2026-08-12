@@ -33,7 +33,8 @@ function getLink(notif) {
   return TYPE_CFG[notif.tipo]?.defaultLink || null;
 }
 
-export default function NotifDropdown({ notifications = [] }) {
+export default function NotifDropdown({ notifications: notificationsRaw }) {
+  const notifications = notificationsRaw ?? [];
   const [open, setOpen]         = useState(false);
   const [reporting, setReporting] = useState(null); // id de notif en reporte
   const ref                     = useRef(null);

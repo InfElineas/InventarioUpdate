@@ -28,7 +28,8 @@ export function validateMerma({ producto, cantidad, clasif, fechaInv, notas }) {
   return null;
 }
 
-export default function MermaForm({ user, onSubmit, onCancel, isPending = false }) {
+export default function MermaForm({ user, onSubmit, onCancel, isPending: isPendingRaw }) {
+  const isPending = isPendingRaw ?? false;
   const { almacen } = useAlmacen();
   const [producto, setProducto] = useState(null);
   const [cantidad, setCantidad] = useState('');

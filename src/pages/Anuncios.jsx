@@ -31,11 +31,12 @@ export default function Anuncios() {
   const { data: user } = useQuery({ queryKey: ['currentUser'], queryFn: () => base44.auth.me() });
   const role = user?.role || 'inv';
 
-  const { data: anuncios = [], isLoading } = useQuery({
+  const { data: anunciosRaw, isLoading } = useQuery({
     queryKey: ['anuncios'],
     queryFn: () => base44.entities.AnuncioDesact.list('-created_date', 200),
     select: (d) => Array.isArray(d) ? d : [],
   });
+  const anuncios = anunciosRaw ?? [];
 
   const updateMut = useMutation({
     mutationFn: ({ id, data }) => base44.entities.AnuncioDesact.update(id, data),

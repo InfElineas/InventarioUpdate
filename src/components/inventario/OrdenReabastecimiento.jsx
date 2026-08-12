@@ -9,10 +9,11 @@ import { X, ShoppingCart, Download, AlertTriangle } from 'lucide-react';
 export default function OrdenReabastecimiento({ onClose }) {
   const [cantidades, setCantidades] = useState({});
 
-  const { data: productos = [], isLoading } = useQuery({
+  const { data: productosRaw, isLoading } = useQuery({
     queryKey: ['productos'],
     queryFn: () => base44.entities.Producto.list('-updated_date', 500),
   });
+  const productos = productosRaw ?? [];
 
   // Products below minimum stock
   const bajoMinimo = productos.filter(p =>

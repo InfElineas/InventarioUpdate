@@ -80,7 +80,10 @@ function activeGroupLabel(pathname, groups) {
   return null;
 }
 
-export default function Sidebar({ user, pendingCounts = {}, isCollapsed = false, onToggle, hoverMode = false }) {
+export default function Sidebar({ user, pendingCounts: pendingCountsRaw, isCollapsed: isCollapsedRaw, onToggle, hoverMode: hoverModeRaw }) {
+  const pendingCounts = pendingCountsRaw ?? {};
+  const isCollapsed = isCollapsedRaw ?? false;
+  const hoverMode = hoverModeRaw ?? false;
   const location = useLocation();
   const role     = user?.role || 'inv';
   const isSA     = role === 'superadmin';

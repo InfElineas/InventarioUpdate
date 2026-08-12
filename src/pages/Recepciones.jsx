@@ -27,11 +27,12 @@ export default function Recepciones() {
   const { data: user } = useQuery({ queryKey: ['currentUser'], queryFn: () => base44.auth.me() });
   const role = user?.role || 'inv';
 
-  const { data: recepciones = [], isLoading } = useQuery({
+  const { data: recepcionesRaw, isLoading } = useQuery({
     queryKey: ['recepciones'],
     queryFn: () => base44.entities.Recepcion.list('-created_date', 100),
     select: (d) => Array.isArray(d) ? d : [],
   });
+  const recepciones = recepcionesRaw ?? [];
 
   const createMut = useMutation({
     mutationFn: (data) => base44.entities.Recepcion.create(data),

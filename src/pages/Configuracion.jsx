@@ -100,7 +100,7 @@ export default function Configuracion() {
   }, [user?.email]) // solo re-sync cuando cambia el usuario, no en cada render
 
   const {
-    data:    allAlmacenes = [],
+    data: allAlmacenesRaw,
     isLoading: loadingAlmacenes,
     isError:   errorAlmacenes,
     refetch:   refetchAlmacenes,
@@ -112,6 +112,7 @@ export default function Configuracion() {
     retry:     1,
     select:    d => Array.isArray(d) ? d : [],
   })
+  const allAlmacenes = allAlmacenesRaw ?? []
 
   // ── Almacenes ────────────────────────────────────────────────
   const toggleAlmacen = (a) =>
@@ -151,7 +152,7 @@ export default function Configuracion() {
   const syncAlmacenes    = almacenesConfig.length ? almacenesConfig : allAlmacenes
   const manualAlmacenes  = syncAlmacenes  // alias for sync section
 
-  const { data: syncLogs = [], refetch: refetchLogs } = useQuery({
+  const { data: syncLogsRaw, refetch: refetchLogs } = useQuery({
     queryKey: ['sync_auto_log_cfg', user?.email],
     queryFn: async () => {
       const { data } = await supabase
@@ -163,6 +164,7 @@ export default function Configuracion() {
     enabled: canSync && !!user?.email,
     staleTime: 30_000,
   })
+  const syncLogs = syncLogsRaw ?? []
   const syncByAlmacen = Object.fromEntries(syncLogs.map(r => [String(r.almacen), r]))
 
   // ── Save ─────────────────────────────────────────────────────

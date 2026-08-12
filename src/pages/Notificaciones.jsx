@@ -11,7 +11,7 @@ export default function Notificaciones() {
   const queryClient = useQueryClient();
   const { data: user } = useQuery({ queryKey: ['currentUser'], queryFn: () => base44.auth.me() });
 
-  const { data: notifs = [], isLoading } = useQuery({
+  const { data: notifsRaw, isLoading } = useQuery({
     queryKey: ['notifications'],
     queryFn: async () => {
       if (!user?.email) return [];
@@ -20,6 +20,7 @@ export default function Notificaciones() {
     enabled: !!user?.email,
     select: (d) => Array.isArray(d) ? d : [],
   });
+  const notifs = notifsRaw ?? [];
 
   const markReadMut = useMutation({
     mutationFn: (id) => base44.entities.Notificacion.update(id, { leida: true }),

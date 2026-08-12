@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
 import { Search, Package } from 'lucide-react';
 
-export default function ProductSearch({ onSelect, placeholder = 'Buscar producto por nombre o código...' }) {
+export default function ProductSearch({ onSelect, placeholder: placeholderRaw }) {
+  const placeholder = placeholderRaw ?? 'Buscar producto por nombre o código...';
   const { almacen }       = useAlmacen();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);

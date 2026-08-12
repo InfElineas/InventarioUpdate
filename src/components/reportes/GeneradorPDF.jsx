@@ -270,15 +270,17 @@ export default function GeneradorPDF({ onClose }) {
   });
   const [generating, setGenerating] = useState(false);
 
-  const { data: inventarios = [], isLoading: loadingInv } = useQuery({
+  const { data: inventariosRaw, isLoading: loadingInv } = useQuery({
     queryKey: ['pdf-inventarios'],
     queryFn: () => base44.entities.Inventario.list('-created_date', 1000),
   });
+  const inventarios = inventariosRaw ?? [];
 
-  const { data: movimientos = [], isLoading: loadingMov } = useQuery({
+  const { data: movimientosRaw, isLoading: loadingMov } = useQuery({
     queryKey: ['pdf-movimientos'],
     queryFn: () => base44.entities.HistorialMovimiento.list('-fecha', 1000),
   });
+  const movimientos = movimientosRaw ?? [];
 
   const suministradores = useMemo(() => {
     const set = new Set(inventarios.map(i => i.suministrador).filter(Boolean));

@@ -27,11 +27,12 @@ export default function Lotes() {
   const { data: user } = useQuery({ queryKey: ['currentUser'], queryFn: () => base44.auth.me() });
   const role = user?.role || 'inv';
 
-  const { data: lotes = [], isLoading } = useQuery({
+  const { data: lotesRaw, isLoading } = useQuery({
     queryKey: ['lotes'],
     queryFn: () => base44.entities.Lote.list('-updated_date', 300),
     select: (d) => Array.isArray(d) ? d : [],
   });
+  const lotes = lotesRaw ?? [];
 
   const createIcMut = useMutation({
     mutationFn: (data) => base44.entities.LoteIC.create(data),

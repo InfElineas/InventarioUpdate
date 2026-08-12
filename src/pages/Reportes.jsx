@@ -63,10 +63,14 @@ export default function Reportes() {
   const [showPDF, setShowPDF] = useState(false);
 
   const toArr = (d) => Array.isArray(d) ? d : [];
-  const { data: mermas = [] } = useQuery({ queryKey: ['reportes-mermas'], queryFn: () => base44.entities.Merma.list('-created_date', 500), select: toArr });
-  const { data: inventarios = [] } = useQuery({ queryKey: ['reportes-inventarios'], queryFn: () => base44.entities.Inventario.list('-created_date', 500), select: toArr });
-  const { data: lotes = [] } = useQuery({ queryKey: ['reportes-lotes'], queryFn: () => base44.entities.Lote.list('-updated_date', 500), select: toArr });
-  const { data: anuncios = [] } = useQuery({ queryKey: ['reportes-anuncios'], queryFn: () => base44.entities.AnuncioDesact.list('-created_date', 500), select: toArr });
+  const { data: mermasRaw } = useQuery({ queryKey: ['reportes-mermas'], queryFn: () => base44.entities.Merma.list('-created_date', 500), select: toArr });
+  const mermas = mermasRaw ?? [];
+  const { data: inventariosRaw } = useQuery({ queryKey: ['reportes-inventarios'], queryFn: () => base44.entities.Inventario.list('-created_date', 500), select: toArr });
+  const inventarios = inventariosRaw ?? [];
+  const { data: lotesRaw } = useQuery({ queryKey: ['reportes-lotes'], queryFn: () => base44.entities.Lote.list('-updated_date', 500), select: toArr });
+  const lotes = lotesRaw ?? [];
+  const { data: anunciosRaw } = useQuery({ queryKey: ['reportes-anuncios'], queryFn: () => base44.entities.AnuncioDesact.list('-created_date', 500), select: toArr });
+  const anuncios = anunciosRaw ?? [];
 
   // Rango de fechas según el período seleccionado
   const now = new Date();

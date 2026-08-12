@@ -22,7 +22,9 @@ const toArray = (data) => Array.isArray(data) ? data : [];
 function SyncProgressBanner() {
   const { syncState } = useSyncManager()
   if (!syncState) return null
-  const { type, current, idx = 0, total = 1, progress } = syncState
+  const { type, current, idx: idxRaw, total: totalRaw, progress } = syncState
+  const idx = idxRaw ?? 0;
+  const total = totalRaw ?? 1;
   const isAll = type === 'all'
   const pct = progress
     ? progress.stage === 'fetch' ? 20
@@ -134,7 +136,7 @@ export default function AppLayout() {
   const initials  = displayName.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase();
   const roleLabel = ROLES[role]?.label || 'Usuario';
 
-  const { data: notifs = [], isFetched: notifsFetched } = useQuery({
+  const { data: notifsRaw, isFetched: notifsFetched } = useQuery({
     queryKey: ['notifications-unread'],
     queryFn:  async () => {
       if (!user?.email) return [];
@@ -151,37 +153,42 @@ export default function AppLayout() {
     refetchInterval: 15000,
     select:          toArray,
   });
+  const notifs = notifsRaw ?? [];
 
-  const { data: mermas = [] } = useQuery({
+  const { data: mermasRaw } = useQuery({
     queryKey: ['pending-mermas'],
     queryFn:  () => base44.entities.Merma.list('-created_date', 200),
     refetchInterval: 60000,
     select: toArray,
   });
+  const mermas = mermasRaw ?? [];
 
-  const { data: inventarios = [] } = useQuery({
+  const { data: inventariosRaw } = useQuery({
     queryKey: ['pending-inventarios'],
     queryFn:  () => base44.entities.Inventario.list('-created_date', 100),
     refetchInterval: 60000,
     select: toArray,
   });
+  const inventarios = inventariosRaw ?? [];
 
-  const { data: anuncios = [] } = useQuery({
+  const { data: anunciosRaw } = useQuery({
     queryKey: ['pending-anuncios'],
     queryFn:  () => base44.entities.AnuncioDesact.list('-created_date', 100),
     refetchInterval: 60000,
     select: toArray,
   });
+  const anuncios = anunciosRaw ?? [];
 
-  const { data: lotes = [] } = useQuery({
+  const { data: lotesRaw } = useQuery({
     queryKey: ['pending-lotes'],
     queryFn:  () => base44.entities.Lote.list('-updated_date', 100),
     refetchInterval: 60000,
     select: toArray,
   });
+  const lotes = lotesRaw ?? [];
 
   // Productos sólo para alertas de stock (no reemplaza el query de páginas)
-  const { data: prodAlerts = [] } = useQuery({
+  const { data: prodAlertsRaw } = useQuery({
     queryKey: ['alert-productos'],
     queryFn:  async () => {
       const { data } = await supabase
@@ -193,6 +200,7 @@ export default function AppLayout() {
     staleTime: 5 * 60 * 1000,
     enabled:   !!user?.email,
   });
+  const prodAlerts = prodAlertsRaw ?? [];
 
   // ── Smart notifications + browser permission (una vez) ───
   useEffect(() => {

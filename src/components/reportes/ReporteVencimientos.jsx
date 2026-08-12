@@ -42,7 +42,8 @@ const CustomTooltip = ({ active, payload, label }) => {
   );
 };
 
-export default function ReporteVencimientos({ lotes = [] }) {
+export default function ReporteVencimientos({ lotes: lotesRaw }) {
+  const lotes = lotesRaw ?? [];
   const lotesConFV = useMemo(() =>
     lotes.filter(l => l.fecha_vencimiento),
     [lotes]
