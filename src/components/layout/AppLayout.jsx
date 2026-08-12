@@ -228,7 +228,7 @@ export default function AppLayout() {
     const tipos = new Set(newNotifs.map(n => n.tipo))
     if (tipos.has('Merma'))      queryClient.invalidateQueries({ queryKey: ['mermas'] })
     if (tipos.has('Inventario')) queryClient.invalidateQueries({ queryKey: ['inventarios'] })
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [notifs, notifsFetched])
 
   // ── Pending sidebar counts ───────────────────────────────

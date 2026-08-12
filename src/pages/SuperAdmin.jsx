@@ -6,15 +6,15 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ROLES, DEPARTAMENTOS } from '@/lib/constants';
+import { ROLES } from '@/lib/constants';
 import { useConfirm } from '@/lib/useConfirm';
 import { fetchAlmacenes } from '@/services/syncService';
 import { useSyncManager } from '@/lib/SyncContext';
 import {
   Crown, Users, Activity, ShieldCheck, RefreshCw, Search,
-  Trash2, Plus, UserCheck, Clock, Database, AlertTriangle,
+  Trash2, Plus, Clock, Database, AlertTriangle,
   Wrench, Zap, CheckCircle, XCircle, Loader2, Send, Bell,
-  BarChart3, HardDrive, ArrowRight, FileSearch, ChevronDown,
+  BarChart3, HardDrive, FileSearch, ChevronDown,
   ChevronRight, Copy, Info, Lightbulb, Bug, Upload,
 } from 'lucide-react';
 import TabImportar from '@/components/import/TabImportar';

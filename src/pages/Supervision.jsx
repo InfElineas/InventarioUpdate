@@ -4,7 +4,6 @@ import { supabase } from '@/api/supabaseClient';
 import { useAuth } from '@/lib/AuthContext';
 import { DEPARTAMENTOS } from '@/lib/constants';
 import { sanitizeText } from '@/lib/security';
-import AccessDenied from '@/components/shared/AccessDenied';
 import StatusBadge from '@/components/shared/StatusBadge';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';

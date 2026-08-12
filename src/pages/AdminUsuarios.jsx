@@ -7,7 +7,7 @@ import AccessDenied from '@/components/shared/AccessDenied';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Users, UserCheck, UserX, UserCog } from 'lucide-react';
+import { UserCheck, UserX, UserCog } from 'lucide-react';
 import { ROLES, DEPARTAMENTOS } from '@/lib/constants';
 import { format } from 'date-fns';
 import { useConfirm } from '@/lib/useConfirm';

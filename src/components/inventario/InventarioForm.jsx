@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/api/supabaseClient';
 import { supabaseExterna } from '@/api/externalSupabase';
 import { useAlmacen } from '@/lib/useAlmacen';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import ProductSearch from '@/components/shared/ProductSearch';
 import AlertBanner from '@/components/shared/AlertBanner';
 import BarcodeScanner from '@/components/inventario/BarcodeScanner';
-import { Plus, Trash2, Save, X, ScanLine, Package } from 'lucide-react';
+import { Plus, Trash2, Save, ScanLine, Package } from 'lucide-react';
 import { format } from 'date-fns';
 
 const CLASIF_AJUSTE = ['Faltante por deterioro', 'Faltante por robo', 'Faltante sin justificar', 'Sobrante por transferencia', 'Sobrante por devolución', 'Error de sistema', 'Ajuste administrativo'];

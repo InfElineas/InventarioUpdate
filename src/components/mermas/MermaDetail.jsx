@@ -10,7 +10,7 @@ import Timeline from '@/components/shared/Timeline';
 import AlertBanner from '@/components/shared/AlertBanner';
 import { Trash2 } from 'lucide-react';
 import { MOTIVOS_RECONTEO, CLASIF_MERMA_SIN_FACT, ALL_CLASIF_MERMA, DESTINOS_MERMA, CLASIF_FACT, ESTADO_FACT } from '@/lib/constants';
-import { logTransicion, notificarTransicion } from '@/lib/workflowService';
+import { logTransicion } from '@/lib/workflowService';
 import { useConfirm } from '@/lib/useConfirm';
 
 export default function MermaDetail({ merma, role, user, onUpdate, onDelete, isUpdating = false }) {

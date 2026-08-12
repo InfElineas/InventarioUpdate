@@ -5,7 +5,7 @@ import { supabaseExterna } from '@/api/externalSupabase';
 import { useAlmacen } from '@/lib/useAlmacen';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Camera, CameraOff, Search, X, ScanLine, CheckCircle2, AlertCircle, ChevronDown } from 'lucide-react';
+import { Camera, CameraOff, Search, X, ScanLine, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 /**
@@ -119,7 +119,7 @@ export default function BarcodeScannerModal({ onSelect, onClose }) {
   useEffect(() => {
     const t = setTimeout(() => { if (videoRef.current) startCamera(); }, 250);
     return () => { clearTimeout(t); stopCamera(); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, []);
 
   const handleManualSubmit = (e) => {
