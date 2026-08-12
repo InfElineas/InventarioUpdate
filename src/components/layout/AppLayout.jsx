@@ -155,10 +155,14 @@ export default function AppLayout() {
   });
   const notifs = notifsRaw ?? [];
 
+  // Estas cuatro listas alimentan SOLO a runSmartNotifications, que corre una
+  // vez por sesión (guarda smartRanRef). Por eso no llevan refetchInterval: antes
+  // repetían las cuatro cada 60 s, unos 500 registros por minuto en todas las
+  // páginas, y lo único que se recalculaba con ellos eran los contadores del
+  // menú — que ahora salen de las queries de count de más abajo.
   const { data: mermasRaw } = useQuery({
     queryKey: ['pending-mermas'],
     queryFn:  () => base44.entities.Merma.list('-created_date', 200),
-    refetchInterval: 60000,
     select: toArray,
   });
   const mermas = mermasRaw ?? [];
@@ -166,7 +170,6 @@ export default function AppLayout() {
   const { data: inventariosRaw } = useQuery({
     queryKey: ['pending-inventarios'],
     queryFn:  () => base44.entities.Inventario.list('-created_date', 100),
-    refetchInterval: 60000,
     select: toArray,
   });
   const inventarios = inventariosRaw ?? [];
@@ -174,7 +177,6 @@ export default function AppLayout() {
   const { data: anunciosRaw } = useQuery({
     queryKey: ['pending-anuncios'],
     queryFn:  () => base44.entities.AnuncioDesact.list('-created_date', 100),
-    refetchInterval: 60000,
     select: toArray,
   });
   const anuncios = anunciosRaw ?? [];
@@ -182,10 +184,37 @@ export default function AppLayout() {
   const { data: lotesRaw } = useQuery({
     queryKey: ['pending-lotes'],
     queryFn:  () => base44.entities.Lote.list('-updated_date', 100),
-    refetchInterval: 60000,
     select: toArray,
   });
   const lotes = lotesRaw ?? [];
+
+  // ── Contadores del menú ──────────────────────────────────
+  // El estado que cuenta como "pendiente" depende del rol.
+  const estadoPendiente = {
+    mermas:      role === 'fact' || role === 'administrador' ? 'pend_fact'
+               : role === 'auditor'                          ? 'en_auditoria'
+               : 'reconteo_solicitado',
+    inventarios: role === 'fact' || role === 'administrador' ? 'pend_fact'
+               : role === 'auditor'                          ? 'en_auditoria'
+               : 'devuelto',
+    anuncios:    role === 'ca'   || role === 'administrador' ? 'pend_ca'
+               : role === 'auditor'                          ? 'en_auditoria'
+               : 'pendiente',
+  };
+
+  // Cuentan contra la tabla entera y no traen ni una fila. Son las únicas que
+  // siguen refrescándose cada 60 s, que es lo que el menú necesita de verdad.
+  const contador = (key, entidad, condiciones) => ({
+    queryKey: ['count', key, ...Object.values(condiciones).flat()],
+    queryFn:  () => base44.entities[entidad].count(condiciones),
+    refetchInterval: 60000,
+    enabled:  !!user?.email,
+  });
+
+  const { data: mermasPending }   = useQuery(contador('mermas',      'Merma',         { estado_tarea: estadoPendiente.mermas }));
+  const { data: invPending }      = useQuery(contador('inventarios', 'Inventario',    { estado_tarea: estadoPendiente.inventarios }));
+  const { data: anunciosPending } = useQuery(contador('anuncios',    'AnuncioDesact', { estado_tarea: estadoPendiente.anuncios }));
+  const { data: lotesCriticos }   = useQuery(contador('lotes',       'Lote',          { estado_fv: ['critico', 'vencido'] }));
 
   // Productos sólo para alertas de stock (no reemplaza el query de páginas)
   const { data: prodAlertsRaw } = useQuery({
@@ -241,31 +270,10 @@ export default function AppLayout() {
 
   // ── Pending sidebar counts ───────────────────────────────
   const pendingCounts = {};
-
-  const mermasPending = role === 'fact' || role === 'administrador'
-    ? mermas.filter(m => m.estado_tarea === 'pend_fact').length
-    : role === 'auditor'
-    ? mermas.filter(m => m.estado_tarea === 'en_auditoria').length
-    : mermas.filter(m => m.estado_tarea === 'reconteo_solicitado').length;
-
-  const invPending = role === 'fact' || role === 'administrador'
-    ? inventarios.filter(i => i.estado_tarea === 'pend_fact').length
-    : role === 'auditor'
-    ? inventarios.filter(i => i.estado_tarea === 'en_auditoria').length
-    : inventarios.filter(i => i.estado_tarea === 'devuelto').length;
-
-  if (mermasPending > 0)  pendingCounts['/mermas']    = mermasPending;
-  if (invPending > 0)     pendingCounts['/inventario'] = invPending;
-
-  const anunciosPending = role === 'ca' || role === 'administrador'
-    ? anuncios.filter(a => a.estado_tarea === 'pend_ca').length
-    : role === 'auditor'
-    ? anuncios.filter(a => a.estado_tarea === 'en_auditoria').length
-    : anuncios.filter(a => a.estado_tarea === 'pendiente').length;
-  if (anunciosPending > 0) pendingCounts['/anuncios'] = anunciosPending;
-
-  const lotesCriticos = lotes.filter(l => ['critico', 'vencido'].includes(l.estado_fv)).length;
-  if (lotesCriticos > 0) pendingCounts['/lotes'] = lotesCriticos;
+  if (mermasPending   > 0) pendingCounts['/mermas']     = mermasPending;
+  if (invPending      > 0) pendingCounts['/inventario'] = invPending;
+  if (anunciosPending > 0) pendingCounts['/anuncios']   = anunciosPending;
+  if (lotesCriticos   > 0) pendingCounts['/lotes']      = lotesCriticos;
 
   return (
     <div className="min-h-screen bg-background">

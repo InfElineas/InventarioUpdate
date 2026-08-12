@@ -59,6 +59,26 @@ function entity(table) {
       return data ?? [];
     },
 
+    /**
+     * Cuántas filas cumplen las condiciones, SIN traérselas.
+     *
+     * `head: true` hace que Postgres devuelva solo la cabecera con el total, así
+     * que la respuesta no lleva filas. Está para los contadores de los badges,
+     * que antes se calculaban descargando cientos de registros para hacerles un
+     * .filter().length.
+     *
+     * Un valor array se traduce a `in`, y uno escalar a `eq`.
+     */
+    count: async (conditions = {}) => {
+      let q = supabase.from(table).select('*', { count: 'exact', head: true });
+      Object.entries(conditions).forEach(([k, v]) => {
+        q = Array.isArray(v) ? q.in(k, v) : q.eq(k, v);
+      });
+      const { count, error } = await q;
+      if (error) throw new Error(sanitizeError(error));
+      return count ?? 0;
+    },
+
     create: async (data) => {
       const { data: row, error } = await supabase.from(table).insert(data).select().single();
       if (error) throw new Error(sanitizeError(error));

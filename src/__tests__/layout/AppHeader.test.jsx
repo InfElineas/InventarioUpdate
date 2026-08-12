@@ -19,17 +19,30 @@ vi.mock('@/api/supabaseClient', () => ({
   },
 }));
 
-vi.mock('@/api/base44Client', () => ({
-  base44: {
-    auth: { me: () => Promise.resolve({ email: 'test@test.com', role: 'inv' }) },
-    entities: {
-      Merma:       { list: () => Promise.resolve([]) },
-      Inventario:  { list: () => Promise.resolve([]) },
-      AnuncioDesact:{ list: () => Promise.resolve([]) },
-      Lote:        { list: () => Promise.resolve([]) },
+// Mutable para que cada test fije los contadores que devuelve Postgres.
+const contadores = vi.hoisted(() => ({ Merma: 0, Inventario: 0, AnuncioDesact: 0, Lote: 0 }));
+
+vi.mock('@/api/base44Client', () => {
+  // count() hace falta desde que los contadores del menú se calculan en Postgres
+  // en vez de filtrando registros descargados. Sin él la query fallaba en
+  // silencio: react-query se tragaba el "count is not a function", el badge
+  // quedaba vacío y los tests seguían pasando igual.
+  const entidad = (nombre) => ({
+    list:  () => Promise.resolve([]),
+    count: () => Promise.resolve(contadores[nombre]),
+  });
+  return {
+    base44: {
+      auth: { me: () => Promise.resolve({ email: 'test@test.com', role: 'inv' }) },
+      entities: {
+        Merma:         entidad('Merma'),
+        Inventario:    entidad('Inventario'),
+        AnuncioDesact: entidad('AnuncioDesact'),
+        Lote:          entidad('Lote'),
+      },
     },
-  },
-}));
+  };
+});
 
 vi.mock('@/lib/AuthContext', () => ({
   useAuth: () => ({
@@ -63,16 +76,19 @@ vi.mock('@/components/shared/ProfileModal', () => ({
   default: () => null,
 }));
 
-vi.mock('./Sidebar', () => ({ default: () => <nav data-testid="sidebar" /> }), { virtual: true });
-vi.mock('./BottomNav', () => ({ default: () => <nav data-testid="bottom-nav" /> }), { virtual: true });
-vi.mock('./NotifDropdown', () => ({
-  default: ({ notifications }) => (
-    <button data-testid="btn-notifications" aria-label="Notificaciones">
-      {notifications.length > 0 && <span>{notifications.length}</span>}
-    </button>
+// OJO con la ruta: vi.mock resuelve relativo al FICHERO DE TEST, no a AppLayout.
+// Estos mocks estaban puestos como './Sidebar' con { virtual: true }, asi que
+// nunca sustituian nada — se renderizaba el componente real. Con la ruta del
+// alias si aplican.
+//
+// El de Sidebar expone pendingCounts para poder comprobar que los contadores del
+// menu llegan desde las queries de count().
+vi.mock('@/components/layout/Sidebar', () => ({
+  default: ({ pendingCounts }) => (
+    <nav data-testid="sidebar" data-counts={JSON.stringify(pendingCounts ?? {})} />
   ),
 }));
-
+vi.mock('@/components/layout/BottomNav', () => ({ default: () => <nav data-testid="bottom-nav" /> }));
 vi.mock('react-router-dom', async (importOriginal) => {
   const actual = await importOriginal();
   return {
@@ -213,5 +229,39 @@ describe('AppLayout header — interacción', () => {
     fireEvent.click(screen.getByTestId('btn-user-menu'));
     expect(screen.getByText(/perfil y preferencias/i)).toBeInTheDocument();
     expect(screen.getByText(/cerrar sesión/i)).toBeInTheDocument();
+  });
+});
+
+// ── Contadores del menú ──────────────────────────────────────
+describe('AppLayout — contadores del menú', () => {
+  const leerCounts = async () =>
+    JSON.parse((await screen.findByTestId('sidebar')).dataset.counts);
+
+  beforeEach(() => {
+    Object.assign(contadores, { Merma: 0, Inventario: 0, AnuncioDesact: 0, Lote: 0 });
+  });
+
+  it('pasa a Sidebar lo que devuelve count(), sin descargar registros', async () => {
+    Object.assign(contadores, { Merma: 3, Inventario: 1, AnuncioDesact: 7, Lote: 2 });
+    render(<AppLayout />, { wrapper });
+    await vi.waitFor(async () => {
+      expect(await leerCounts()).toEqual({
+        '/mermas': 3, '/inventario': 1, '/anuncios': 7, '/lotes': 2,
+      });
+    });
+  });
+
+  it('omite las rutas con cero, para que no salga un badge vacío', async () => {
+    Object.assign(contadores, { Merma: 5 });
+    render(<AppLayout />, { wrapper });
+    await vi.waitFor(async () => {
+      expect(await leerCounts()).toEqual({ '/mermas': 5 });
+    });
+  });
+
+  it('no rompe mientras las queries aún no han resuelto', async () => {
+    render(<AppLayout />, { wrapper });
+    // count() empieza en undefined; `undefined > 0` es false, no NaN ni crash.
+    expect(await leerCounts()).toEqual({});
   });
 });
