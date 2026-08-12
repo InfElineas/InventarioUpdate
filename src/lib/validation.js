@@ -2,16 +2,27 @@ import { z } from 'zod';
 
 // ── Helpers ──────────────────────────────────────────────
 
+// Zod 4 sustituyó `invalid_type_error` / `required_error` por un único `error`,
+// e IGNORA EN SILENCIO los dos antiguos: con ellos los mensajes salían en inglés
+// ("Invalid input: expected number, received undefined") sin que nada fallara.
+// La forma de función distingue el caso "falta el campo" (`input === undefined`)
+// del caso "vino con el tipo equivocado".
 const positiveInt = (max = 100_000, label = 'Cantidad') =>
   z
-    .number({ invalid_type_error: `${label} debe ser numérica`, required_error: `${label} requerida` })
+    .number({
+      error: (issue) =>
+        issue.input === undefined ? `${label} requerida` : `${label} debe ser numérica`,
+    })
     .int(`${label} debe ser un número entero`)
     .positive(`${label} debe ser mayor a 0`)
     .max(max, `${label} no puede superar ${max.toLocaleString('es')}`);
 
+// `.finite()` quedó redundante: en Zod 4 `z.number()` ya rechaza Infinity/NaN en
+// la comprobación de tipo, así que un Infinity ahora responde "debe ser numérico"
+// en lugar de "inválido". Se conserva por si la garantía del tipo cambia.
 const nonNegativeNum = (max = 9_999_999, label = 'Valor') =>
   z
-    .number({ invalid_type_error: `${label} debe ser numérico` })
+    .number({ error: `${label} debe ser numérico` })
     .min(0, `${label} no puede ser negativo`)
     .max(max, `${label} no puede superar ${max.toLocaleString('es')}`)
     .finite(`${label} inválido`);
