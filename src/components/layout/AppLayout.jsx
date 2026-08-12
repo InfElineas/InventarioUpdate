@@ -1,5 +1,5 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, lazy, Suspense} from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { supabase } from '@/api/supabaseClient';
@@ -15,7 +15,7 @@ import { ROLES } from '@/lib/constants';
 import Sidebar from './Sidebar';
 import BottomNav from './BottomNav';
 import NotifDropdown from './NotifDropdown';
-import BarcodeScannerModal from '@/components/shared/BarcodeScannerModal';
+const BarcodeScannerModal = lazy(() => import('@/components/shared/BarcodeScannerModal'));
 
 const toArray = (data) => Array.isArray(data) ? data : [];
 
@@ -439,8 +439,14 @@ export default function AppLayout() {
 
       <SyncProgressBanner />
 
+      {/* Suspense propio, y no el de App.jsx: aquel envuelve <Routes> entera, asi
+          que al suspender el modal la pagina completa parpadearia con
+          RouteLoading mientras baja el chunk del escaner. Con este limite local
+          la pagina se queda quieta y solo aparece el modal al estar listo. */}
       {showScanner && (
-        <BarcodeScannerModal onSelect={handleScanSelect} onClose={() => setShowScanner(false)} />
+        <Suspense fallback={null}>
+          <BarcodeScannerModal onSelect={handleScanSelect} onClose={() => setShowScanner(false)} />
+        </Suspense>
       )}
     </div>
   );

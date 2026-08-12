@@ -4,6 +4,7 @@
  * que fueron mejorados para usabilidad móvil.
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { Suspense } from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MemoryRouter } from 'react-router-dom';
@@ -82,9 +83,14 @@ vi.mock('react-router-dom', async (importOriginal) => {
 
 import AppLayout from '@/components/layout/AppLayout';
 
+// El Suspense refleja el de App.jsx, que envuelve a AppLayout en la app real.
+// Hace falta desde que BarcodeScannerModal se carga con lazy(): sin el, montar
+// el modal lanzaria en vez de suspender.
 const wrapper = ({ children }) => (
   <QueryClientProvider client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}>
-    <MemoryRouter>{children}</MemoryRouter>
+    <MemoryRouter>
+      <Suspense fallback={null}>{children}</Suspense>
+    </MemoryRouter>
   </QueryClientProvider>
 );
 
@@ -179,17 +185,19 @@ describe('AppLayout header — accesibilidad', () => {
 
 // ── Interacción ──────────────────────────────────────────────
 describe('AppLayout header — interacción', () => {
-  it('abre el modal de escáner al clicar el botón', () => {
+  // find* en vez de get*: BarcodeScannerModal se carga con lazy(), asi que
+  // aparece un microtask despues del clic, no en el mismo tick.
+  it('abre el modal de escáner al clicar el botón', async () => {
     render(<AppLayout />, { wrapper });
     expect(screen.queryByTestId('scanner-modal')).not.toBeInTheDocument();
     fireEvent.click(screen.getByTestId('btn-scanner'));
-    expect(screen.getByTestId('scanner-modal')).toBeInTheDocument();
+    expect(await screen.findByTestId('scanner-modal')).toBeInTheDocument();
   });
 
-  it('cierra el modal de escáner al llamar onClose', () => {
+  it('cierra el modal de escáner al llamar onClose', async () => {
     render(<AppLayout />, { wrapper });
     fireEvent.click(screen.getByTestId('btn-scanner'));
-    fireEvent.click(screen.getByText('Cerrar'));
+    fireEvent.click(await screen.findByText('Cerrar'));
     expect(screen.queryByTestId('scanner-modal')).not.toBeInTheDocument();
   });
 
