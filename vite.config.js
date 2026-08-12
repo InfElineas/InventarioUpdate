@@ -1,5 +1,6 @@
 import react, { reactCompilerPreset } from '@vitejs/plugin-react'
 import babel from '@rolldown/plugin-babel'
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'vite'
 import { fileURLToPath } from 'url'
 import path from 'path'
@@ -25,6 +26,9 @@ export default defineConfig({
     // condicionales de src/pages/AdminUsuarios.jsx no rompen el build: ese
     // componente se queda sin optimizar (los denuncia `bun run lint`).
     babel({ presets: [reactCompilerPreset()] }),
+    // Tailwind 4 va como plugin de Vite en vez de por PostCSS: postcss.config.js
+    // y autoprefixer sobran (v4 prefija con lightningcss).
+    tailwindcss(),
     tkcApiPlugin(),
   ],
   resolve: {

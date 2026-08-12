@@ -19,14 +19,14 @@ function ProductThumb({ fotos, nombre }) {
   const src = Array.isArray(fotos) && fotos.length > 0 ? fotos[0] : null;
   if (!src || err) {
     return (
-      <div className="w-16 h-16 rounded-lg flex-shrink-0 border border-border bg-muted flex items-center justify-center">
+      <div className="w-16 h-16 rounded-lg shrink-0 border border-border bg-muted flex items-center justify-center">
         <Package className="w-6 h-6 text-muted-foreground/40" />
       </div>
     );
   }
   return (
     <img src={src} alt={nombre} onError={() => setErr(true)}
-      className="w-16 h-16 rounded-lg object-cover flex-shrink-0 border border-border bg-muted" />
+      className="w-16 h-16 rounded-lg object-cover shrink-0 border border-border bg-muted" />
   );
 }
 
@@ -171,15 +171,15 @@ export default function InventarioForm({ user, onSubmit, onCancel, isPending: is
           <p className="text-sm font-medium">¿Qué pasa después?</p>
           <ol className="space-y-1.5 text-xs text-muted-foreground list-none">
             <li className="flex gap-2">
-              <span className="w-5 h-5 rounded-full bg-[#4ade80]/15 text-[#4ade80] flex items-center justify-center font-bold flex-shrink-0 text-[10px]">1</span>
+              <span className="w-5 h-5 rounded-full bg-[#4ade80]/15 text-[#4ade80] flex items-center justify-center font-bold shrink-0 text-[10px]">1</span>
               <span>El conteo queda en estado <strong className="text-foreground">Pendiente FACT</strong>.</span>
             </li>
             <li className="flex gap-2">
-              <span className="w-5 h-5 rounded-full bg-[#60a5fa]/15 text-[#60a5fa] flex items-center justify-center font-bold flex-shrink-0 text-[10px]">2</span>
+              <span className="w-5 h-5 rounded-full bg-[#60a5fa]/15 text-[#60a5fa] flex items-center justify-center font-bold shrink-0 text-[10px]">2</span>
               <span><strong className="text-foreground">Facturación</strong> revisa la diferencia, agrega la factura o nota de ajuste y lo envía a auditoría.</span>
             </li>
             <li className="flex gap-2">
-              <span className="w-5 h-5 rounded-full bg-[#a78bfa]/15 text-[#a78bfa] flex items-center justify-center font-bold flex-shrink-0 text-[10px]">3</span>
+              <span className="w-5 h-5 rounded-full bg-[#a78bfa]/15 text-[#a78bfa] flex items-center justify-center font-bold shrink-0 text-[10px]">3</span>
               <span><strong className="text-foreground">Auditor</strong> valida y cierra el proceso.</span>
             </li>
           </ol>

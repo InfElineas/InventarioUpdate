@@ -235,7 +235,7 @@ export default function Inventario() {
                     onClick={() => { setSelectedId(inv.id); setShowForm(false); setShowOrden(false); }}>
                     <td className="p-3">
                       <div className="flex items-center gap-1.5">
-                        {bajominimo && <span title="Stock bajo mínimo" className="w-1.5 h-1.5 rounded-full bg-[#E24B4A] flex-shrink-0" />}
+                        {bajominimo && <span title="Stock bajo mínimo" className="w-1.5 h-1.5 rounded-full bg-[#E24B4A] shrink-0" />}
                         <div>
                           <p className={`font-medium ${bajominimo ? 'text-[#E24B4A]' : ''}`}>{inv.producto_nombre}</p>
                           <p className="text-xs text-muted-foreground">{inv.producto_codigo}</p>

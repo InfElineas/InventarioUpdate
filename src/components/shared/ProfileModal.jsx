@@ -72,7 +72,7 @@ export default function ProfileModal({ user, open, onClose }) {
               onChange={e => setNickname(e.target.value)}
               placeholder={user?.full_name || 'Tu nombre en la app'}
               maxLength={30}
-              className="w-full px-3 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+              className="w-full px-3 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
             />
             <p className="text-[10px] text-muted-foreground">
               Se muestra en lugar de tu nombre de Google dentro de la app.

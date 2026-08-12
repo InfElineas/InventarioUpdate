@@ -86,7 +86,7 @@ export default function OrdenReabastecimiento({ onClose }) {
                     <tr key={p.id} className="border-b last:border-0 bg-[#E24B4A]/[0.03]">
                       <td className="p-3">
                         <div className="flex items-center gap-2">
-                          <AlertTriangle className="w-3.5 h-3.5 text-[#E24B4A] flex-shrink-0" />
+                          <AlertTriangle className="w-3.5 h-3.5 text-[#E24B4A] shrink-0" />
                           <div>
                             <p className="font-medium text-xs">{p.nombre}</p>
                             <p className="text-[11px] text-muted-foreground">{p.codigo_producto} · {p.suministrador || '—'}</p>

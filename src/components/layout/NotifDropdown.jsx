@@ -161,14 +161,14 @@ export default function NotifDropdown({ notifications: notificationsRaw }) {
                       className={`flex items-start gap-3 px-4 py-3 transition-colors ${link ? 'cursor-pointer hover:bg-accent' : ''}`}
                       onClick={() => !isReporting && handleClick(n)}
                     >
-                      <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5"
                         style={{ background: `${color}18` }}>
                         <Icon className="w-3.5 h-3.5" style={{ color }} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-1">
                           <p className="text-[12px] font-medium text-foreground leading-snug">{n.titulo}</p>
-                          {link && <ExternalLink className="w-3 h-3 text-muted-foreground flex-shrink-0 mt-0.5" />}
+                          {link && <ExternalLink className="w-3 h-3 text-muted-foreground shrink-0 mt-0.5" />}
                         </div>
                         {n.mensaje && (
                           <p className="text-[11px] leading-snug mt-0.5 text-muted-foreground line-clamp-2">{n.mensaje}</p>
@@ -187,7 +187,7 @@ export default function NotifDropdown({ notifications: notificationsRaw }) {
                           )}
                         </div>
                       </div>
-                      <span className="w-[6px] h-[6px] rounded-full flex-shrink-0 mt-1.5 bg-[#4ade80]" />
+                      <span className="w-[6px] h-[6px] rounded-full shrink-0 mt-1.5 bg-[#4ade80]" />
                     </div>
 
                     {/* Formulario de reporte */}

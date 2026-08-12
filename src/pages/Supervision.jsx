@@ -269,7 +269,7 @@ export default function Supervision() {
                           {task[cols.worker] && <span>{task[cols.worker]}</span>}
                         </p>
                       </div>
-                      <div className="flex-shrink-0 text-right">
+                      <div className="shrink-0 text-right">
                         <StatusBadge status={statusVal} />
                         {dateVal && (
                           <p className="text-[10px] text-muted-foreground mt-1">

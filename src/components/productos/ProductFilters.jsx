@@ -64,7 +64,7 @@ export default function ProductFilters({ productos, filters, onChange }) {
               <select
                 value={filters.existencia}
                 onChange={e => set('existencia', e.target.value)}
-                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
               >
                 <option value="all">Todos</option>
                 <option value="con_ef">Con existencia (EF &gt; 0)</option>
@@ -79,7 +79,7 @@ export default function ProductFilters({ productos, filters, onChange }) {
               <select
                 value={filters.estadoTienda}
                 onChange={e => set('estadoTienda', e.target.value)}
-                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
               >
                 <option value="all">Todos</option>
                 <option value="SIN RESERVA">Sin Reserva (urgente)</option>
@@ -98,7 +98,7 @@ export default function ProductFilters({ productos, filters, onChange }) {
               <select
                 value={filters.suministrador}
                 onChange={e => set('suministrador', e.target.value)}
-                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
               >
                 <option value="">Todos</option>
                 {opciones.suministradores.map(s => (
@@ -113,7 +113,7 @@ export default function ProductFilters({ productos, filters, onChange }) {
               <select
                 value={filters.categoria}
                 onChange={e => set('categoria', e.target.value)}
-                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+                className="w-full px-2.5 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
               >
                 <option value="">Todas</option>
                 {opciones.categorias.map(c => (
@@ -130,14 +130,14 @@ export default function ProductFilters({ productos, filters, onChange }) {
                   type="number" min="0" placeholder="Min"
                   value={filters.precioMin}
                   onChange={e => set('precioMin', e.target.value)}
-                  className="w-full px-2 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+                  className="w-full px-2 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
                 />
-                <span className="text-muted-foreground text-xs flex-shrink-0">–</span>
+                <span className="text-muted-foreground text-xs shrink-0">–</span>
                 <input
                   type="number" min="0" placeholder="Max"
                   value={filters.precioMax}
                   onChange={e => set('precioMax', e.target.value)}
-                  className="w-full px-2 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+                  className="w-full px-2 py-1.5 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
                 />
               </div>
             </div>

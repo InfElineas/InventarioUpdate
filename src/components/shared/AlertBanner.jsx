@@ -14,7 +14,7 @@ export default function AlertBanner({ variant: variantRaw, message }) {
   return (
     <div className={`flex items-center gap-2.5 px-4 py-3 rounded-lg border ${v.bg} ${v.border}`}
       style={{ borderRadius: '8px' }}>
-      <IconComp className={`w-4 h-4 ${v.text} flex-shrink-0`} />
+      <IconComp className={`w-4 h-4 ${v.text} shrink-0`} />
       <p className={`text-sm ${v.text}`}>{message}</p>
     </div>
   );

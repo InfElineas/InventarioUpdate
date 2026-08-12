@@ -240,7 +240,7 @@ export default function Configuracion() {
                   No se pudo conectar a la BD externa. Verifica las credenciales y que <code className="bg-muted px-1 rounded text-[10px]">invGlobal</code> sea accesible.
                 </p>
                 <button type="button" onClick={() => refetchAlmacenes()}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md bg-card border border-border text-muted-foreground hover:text-foreground whitespace-nowrap flex-shrink-0">
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-md bg-card border border-border text-muted-foreground hover:text-foreground whitespace-nowrap shrink-0">
                   <RefreshCw className="w-3 h-3" /> Reintentar
                 </button>
               </div>
@@ -261,7 +261,7 @@ export default function Configuracion() {
                             : 'bg-background border-border text-muted-foreground hover:border-[#4ade80]/30 hover:text-foreground'}`}
                       >
                         <span className="truncate">{a}</span>
-                        {active && <Check className="w-3 h-3 flex-shrink-0 ml-1" />}
+                        {active && <Check className="w-3 h-3 shrink-0 ml-1" />}
                       </button>
                     )
                   })}
@@ -321,7 +321,7 @@ export default function Configuracion() {
                         {syncCfg.horarios.map((h, idx) => (
                           <div key={idx} className="flex items-center gap-1.5">
                             <input type="time" value={h} onChange={e => setHorario(idx, e.target.value)}
-                              className="px-2.5 py-1.5 text-sm rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50" />
+                              className="px-2.5 py-1.5 text-sm rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50" />
                             {syncCfg.horarios.length > 1 && (
                               <button type="button" onClick={() => removeHorario(idx)}
                                 className="p-1 text-muted-foreground hover:text-[#e24b4a] transition-colors rounded">
@@ -365,7 +365,7 @@ export default function Configuracion() {
           {/* Error migración */}
           {saveError && saveError.includes('migration') && (
             <div className="flex items-start gap-2.5 px-4 py-3 rounded-lg bg-[#BA7517]/10 border border-[#BA7517]/30">
-              <AlertTriangle className="w-4 h-4 text-[#BA7517] flex-shrink-0 mt-0.5" />
+              <AlertTriangle className="w-4 h-4 text-[#BA7517] shrink-0 mt-0.5" />
               <div className="space-y-1">
                 <p className="text-xs font-medium text-[#BA7517]">Migraciones pendientes en Supabase</p>
                 <p className="text-xs text-muted-foreground">
@@ -428,7 +428,7 @@ export default function Configuracion() {
                       <button type="button"
                         onClick={() => { syncOne(String(alm)); setTimeout(() => refetchLogs(), 3000) }}
                         disabled={isRunning}
-                        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg bg-[#4ade80]/10 text-[#4ade80] border border-[#4ade80]/20 hover:bg-[#4ade80]/20 disabled:opacity-50 transition-colors whitespace-nowrap flex-shrink-0">
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs rounded-lg bg-[#4ade80]/10 text-[#4ade80] border border-[#4ade80]/20 hover:bg-[#4ade80]/20 disabled:opacity-50 transition-colors whitespace-nowrap shrink-0">
                         <RefreshCw className={`w-3 h-3 ${syncing ? 'animate-spin' : ''}`} />
                         {syncing ? '…' : 'Sync'}
                       </button>

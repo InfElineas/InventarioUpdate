@@ -37,7 +37,7 @@ function SyncProgressBanner() {
     >
       <div className="px-4 pt-3 pb-3 space-y-2">
         <div className="flex items-center gap-3">
-          <RefreshCw className="w-4 h-4 text-[#4ade80] animate-spin flex-shrink-0" />
+          <RefreshCw className="w-4 h-4 text-[#4ade80] animate-spin shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="text-sm font-medium text-foreground leading-tight">
               {isAll
@@ -327,7 +327,7 @@ export default function AppLayout() {
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Buscar..."
-                className="text-[12px] text-foreground placeholder:text-muted-foreground pl-7 pr-3 py-1.5 outline-none transition-colors"
+                className="text-[12px] text-foreground placeholder:text-muted-foreground pl-7 pr-3 py-1.5 outline-hidden transition-colors"
                 style={{
                   background: 'hsl(var(--input))',
                   border: '1px solid hsl(var(--border))',
@@ -351,9 +351,9 @@ export default function AppLayout() {
               >
                 {user?.avatar_url ? (
                   <img src={user.avatar_url} alt={initials}
-                    className="w-8 h-8 sm:w-6 sm:h-6 rounded-full object-cover flex-shrink-0 border border-[#4ade80]/30" />
+                    className="w-8 h-8 sm:w-6 sm:h-6 rounded-full object-cover shrink-0 border border-[#4ade80]/30" />
                 ) : (
-                  <div className="w-8 h-8 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[11px] sm:text-[10px] font-bold text-black flex-shrink-0"
+                  <div className="w-8 h-8 sm:w-6 sm:h-6 rounded-full flex items-center justify-center text-[11px] sm:text-[10px] font-bold text-black shrink-0"
                     style={{ background: '#4ade80' }}>
                     {initials}
                   </div>
@@ -373,9 +373,9 @@ export default function AppLayout() {
                     <div className="flex items-center gap-2.5 mb-1">
                       {user?.avatar_url ? (
                         <img src={user.avatar_url} alt={initials}
-                          className="w-8 h-8 rounded-full object-cover flex-shrink-0 border border-[#4ade80]/30" />
+                          className="w-8 h-8 rounded-full object-cover shrink-0 border border-[#4ade80]/30" />
                       ) : (
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-black flex-shrink-0"
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-bold text-black shrink-0"
                           style={{ background: '#4ade80' }}>
                           {initials}
                         </div>

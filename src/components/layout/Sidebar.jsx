@@ -139,7 +139,7 @@ export default function Sidebar({ user, pendingCounts: pendingCountsRaw, isColla
         className={`flex items-center py-4 ${collapsed ? 'justify-center px-0' : 'px-4 gap-2.5'}`}
         style={{ borderBottom: '1px solid hsl(var(--sidebar-border))', flexShrink: 0 }}
       >
-        <div className="w-7 h-7 rounded-lg bg-[#4ade80] flex items-center justify-center flex-shrink-0">
+        <div className="w-7 h-7 rounded-lg bg-[#4ade80] flex items-center justify-center shrink-0">
           <Warehouse className="w-3.5 h-3.5 text-black" />
         </div>
         {!collapsed && (
@@ -174,7 +174,7 @@ export default function Sidebar({ user, pendingCounts: pendingCountsRaw, isColla
                           ${collapsed ? 'justify-center mx-1.5 px-0' : 'gap-2.5 ml-3 mr-2 px-3'}
                           ${isActive ? 'bg-[#4ade80]/[0.08] text-[#4ade80]' : 'text-muted-foreground hover:bg-white/[0.04] hover:text-foreground'}`}
                       >
-                        {Icon && <Icon className="w-[15px] h-[15px] flex-shrink-0" />}
+                        {Icon && <Icon className="w-[15px] h-[15px] shrink-0" />}
                         {!collapsed && <span className="flex-1 text-[13px] font-medium">{item.label}</span>}
                         {!collapsed && count > 0 && (
                           <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] font-bold bg-[#4ade80]/15 text-[#4ade80] px-1">{count}</span>
@@ -210,7 +210,7 @@ export default function Sidebar({ user, pendingCounts: pendingCountsRaw, isColla
                     className={`flex items-center justify-center mx-1 py-2.5 w-[44px] rounded-md
                       ${hasActive ? 'text-[#4ade80] bg-[#4ade80]/10' : 'text-muted-foreground'}`}
                   >
-                    {GroupIcon && <GroupIcon className="w-5 h-5 flex-shrink-0" />}
+                    {GroupIcon && <GroupIcon className="w-5 h-5 shrink-0" />}
                     {groupCount > 0 && (
                       <span className="absolute top-[4px] right-[4px] w-[7px] h-[7px] rounded-full bg-[#4ade80]" />
                     )}
@@ -223,13 +223,13 @@ export default function Sidebar({ user, pendingCounts: pendingCountsRaw, isColla
                   className={`w-full flex items-center gap-2 px-4 pt-2.5 pb-1.5 transition-colors hover:bg-white/[0.03]
                     ${hasActive && !isExpanded ? 'text-[#4ade80]' : 'text-muted-foreground'}`}
                 >
-                  {GroupIcon && <GroupIcon className="w-3.5 h-3.5 flex-shrink-0" />}
+                  {GroupIcon && <GroupIcon className="w-3.5 h-3.5 shrink-0" />}
                   <span className="flex-1 text-[9px] font-semibold tracking-widest text-left">{group.label}</span>
                   {groupCount > 0 && !isExpanded && (
-                    <span className="w-[7px] h-[7px] rounded-full bg-[#4ade80] flex-shrink-0" />
+                    <span className="w-[7px] h-[7px] rounded-full bg-[#4ade80] shrink-0" />
                   )}
                   <ChevronDown
-                    className="w-3 h-3 flex-shrink-0 transition-transform duration-150"
+                    className="w-3 h-3 shrink-0 transition-transform duration-150"
                     style={{ transform: isExpanded ? 'none' : 'rotate(-90deg)' }}
                   />
                 </button>
@@ -258,7 +258,7 @@ export default function Sidebar({ user, pendingCounts: pendingCountsRaw, isColla
                             ${collapsed ? 'justify-center mx-1.5 px-0' : 'gap-2.5 ml-3 mr-2 px-3'}
                             ${isActive ? 'bg-[#4ade80]/[0.08] text-[#4ade80]' : 'text-muted-foreground hover:bg-white/[0.04] hover:text-foreground'}`}
                         >
-                          {Icon && <Icon className="w-[15px] h-[15px] flex-shrink-0" />}
+                          {Icon && <Icon className="w-[15px] h-[15px] shrink-0" />}
                           {!collapsed && <span className="flex-1 text-[13px] font-medium">{item.label}</span>}
                           {!collapsed && count > 0 && (
                             <span className="min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] font-bold bg-[#4ade80]/15 text-[#4ade80] px-1">{count}</span>

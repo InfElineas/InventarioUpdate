@@ -204,8 +204,8 @@ function TabDiagnostico() {
             <div key={i} className="flex items-center justify-between px-4 py-3">
               <div className="flex items-center gap-3">
                 {c.ok
-                  ? <CheckCircle className="w-4 h-4 text-[#4ade80] flex-shrink-0" />
-                  : <XCircle    className="w-4 h-4 text-[#e24b4a] flex-shrink-0" />
+                  ? <CheckCircle className="w-4 h-4 text-[#4ade80] shrink-0" />
+                  : <XCircle    className="w-4 h-4 text-[#e24b4a] shrink-0" />
                 }
                 <div>
                   <p className="text-sm font-medium">{c.label}</p>
@@ -596,7 +596,7 @@ function TabLogsSinc() {
                       onClick={() => setExpandedCausa(open ? null : c.patron)}
                     >
                       <div className="flex items-center gap-3">
-                        <Bug className={`w-4 h-4 flex-shrink-0 ${col.text}`} />
+                        <Bug className={`w-4 h-4 shrink-0 ${col.text}`} />
                         <div>
                           <p className="text-sm font-medium">{c.titulo}</p>
                           <p className="text-xs text-muted-foreground mt-0.5">{count} ocurrencia{count !== 1 ? 's' : ''} registradas</p>
@@ -894,7 +894,7 @@ function TabMantenimiento({ confirmDialog }) {
             return (
               <Card key={task.key} className="p-4 space-y-3" style={{ borderRadius: '12px', borderWidth: '0.5px' }}>
                 <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-lg flex-shrink-0" style={{ background: `${task.color}18` }}>
+                  <div className="p-2 rounded-lg shrink-0" style={{ background: `${task.color}18` }}>
                     <Icon className="w-4 h-4" style={{ color: task.color }} />
                   </div>
                   <div>
@@ -921,7 +921,7 @@ function TabMantenimiento({ confirmDialog }) {
           return (
             <Card key={task.key} className="p-4 space-y-3" style={{ borderRadius: '12px', borderWidth: '0.5px' }}>
               <div className="flex items-start gap-3">
-                <div className="p-2 rounded-lg flex-shrink-0" style={{ background: `${task.color}18` }}>
+                <div className="p-2 rounded-lg shrink-0" style={{ background: `${task.color}18` }}>
                   <Icon className="w-4 h-4" style={{ color: task.color }} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -1222,7 +1222,7 @@ export default function SuperAdmin() {
             const Icon = t.icon;
             return (
               <button key={t.key} onClick={() => setTab(t.key)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${tab === t.key ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}>
+                className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${tab === t.key ? 'bg-background text-foreground shadow-xs' : 'text-muted-foreground hover:text-foreground'}`}>
                 <Icon className="w-3.5 h-3.5" />{t.label}
               </button>
             );

@@ -336,7 +336,7 @@ export default function TabImportar() {
           <Card className="p-4" style={{ borderRadius: '12px', borderWidth: '0.5px' }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <FileSpreadsheet className="w-5 h-5 text-muted-foreground flex-shrink-0" />
+                <FileSpreadsheet className="w-5 h-5 text-muted-foreground shrink-0" />
                 <div>
                   <p className="text-sm font-medium">{file?.name}</p>
                   <p className="text-xs text-muted-foreground">
@@ -439,7 +439,7 @@ export default function TabImportar() {
           {/* Warning unmatched */}
           {matchStats.unmatched > 0 && (
             <div className="flex items-start gap-2 text-xs text-[#f59e0b] bg-[#f59e0b]/10 rounded-lg p-3">
-              <AlertTriangle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
               <span>
                 {matchStats.unmatched} fila(s) sin producto coincidente serán omitidas.
                 {matchStats.productosEnBD === 0 && ' ⚠️ No se encontraron productos en BD — sincroniza el almacén primero.'}
@@ -499,7 +499,7 @@ export default function TabImportar() {
 
       {status === 'error' && (
         <Card className="p-4 flex items-center gap-3 border-[#e24b4a]/30" style={{ borderRadius: '12px' }}>
-          <AlertTriangle className="w-5 h-5 text-[#e24b4a] flex-shrink-0" />
+          <AlertTriangle className="w-5 h-5 text-[#e24b4a] shrink-0" />
           <div className="flex-1">
             <p className="text-sm font-medium text-[#e24b4a]">Error al leer el archivo</p>
             <p className="text-xs text-muted-foreground mt-0.5">Verifica que sea un .xlsx válido</p>

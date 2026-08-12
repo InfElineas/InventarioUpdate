@@ -128,16 +128,16 @@ export default function ColPicker({ cols, visible, onChange, storageKey, order, 
                 onClick={() => toggle(c.key)}
                 className="flex items-center gap-2 flex-1 min-w-0 disabled:opacity-40"
               >
-                <span className={`w-4 h-4 rounded border flex items-center justify-center flex-shrink-0 transition-colors ${visible[c.key] ? 'bg-[#4ade80] border-[#4ade80]' : 'border-[#333]'}`}>
+                <span className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${visible[c.key] ? 'bg-[#4ade80] border-[#4ade80]' : 'border-[#333]'}`}>
                   {visible[c.key] && <Check className="w-2.5 h-2.5 text-black" strokeWidth={3} />}
                 </span>
                 <span className={`text-sm truncate ${visible[c.key] ? 'text-foreground' : 'text-muted-foreground'}`}>{c.label}</span>
-                {c.required && <span className="ml-auto text-[10px] text-[#333] flex-shrink-0">fijo</span>}
+                {c.required && <span className="ml-auto text-[10px] text-[#333] shrink-0">fijo</span>}
               </button>
 
               {/* Drag handle + arrows */}
               {order && onOrderChange && !c.required && (
-                <div className="flex items-center gap-0.5 flex-shrink-0 ml-1">
+                <div className="flex items-center gap-0.5 shrink-0 ml-1">
                   <GripVertical className="w-3.5 h-3.5 text-muted-foreground opacity-50" />
                   <div className="flex flex-col">
                     <button onClick={() => move(c.key, -1)} disabled={idx === 0}

@@ -151,14 +151,14 @@ function ProductImg({ fotos, nombre }) {
   const src = Array.isArray(fotos) && fotos.length > 0 ? fotos[0] : null;
   if (!src || err) {
     return (
-      <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center flex-shrink-0">
+      <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
         <Package className="w-4 h-4 text-muted-foreground/30" />
       </div>
     );
   }
   return (
     <img src={src} alt={nombre} onError={() => setErr(true)}
-      className="w-10 h-10 rounded-lg object-cover flex-shrink-0 bg-muted border border-border" />
+      className="w-10 h-10 rounded-lg object-cover shrink-0 bg-muted border border-border" />
   );
 }
 
@@ -172,7 +172,7 @@ function FailureHistoryRecord({ record, onRetry, isPending }) {
           <span className="text-[#e24b4a] font-medium whitespace-nowrap">{record.fallidos} fallidos</span>
           <span className="text-muted-foreground truncate">{fmt(record.fecha)}</span>
         </div>
-        <div className="flex items-center gap-1.5 flex-shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
           {record.failures?.length > 0 && (
             <button onClick={() => onRetry(record.failures)} disabled={isPending}
               className="text-xs px-2.5 py-1 rounded-md bg-[#4ade80]/10 text-[#4ade80] border border-[#4ade80]/20 hover:bg-[#4ade80]/20 disabled:opacity-50">
@@ -193,7 +193,7 @@ function FailureHistoryRecord({ record, onRetry, isPending }) {
           ) : record.failures.map((f, i) => (
             <div key={i} className="flex items-start gap-2 text-xs py-1 border-b border-[#e24b4a]/10 last:border-0">
               <span className="text-foreground font-medium min-w-0 flex-1 line-clamp-1">{f.nombre || f.id_tienda || f.codigo}</span>
-              <span className="text-[#e24b4a] flex-shrink-0 text-[10px] max-w-[55%] text-right">{f.msg}</span>
+              <span className="text-[#e24b4a] shrink-0 text-[10px] max-w-[55%] text-right">{f.msg}</span>
             </div>
           ))}
         </div>
@@ -242,9 +242,9 @@ function SearchableSelect({ value, onChange, options, placeholder, maxWidth: max
     <div className="relative" ref={ref}>
       <button type="button" title={label}
         onClick={() => { setOpen(v => !v); setQuery(''); }}
-        className={`flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:border-[#4ade80]/30 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50 ${maxWidth}`}>
+        className={`flex items-center gap-1.5 px-3 py-2 text-sm rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:border-[#4ade80]/30 transition-colors cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50 ${maxWidth}`}>
         <span className="truncate flex-1 min-w-0 text-left">{label}</span>
-        <ChevronDown className="w-3.5 h-3.5 flex-shrink-0 opacity-60" />
+        <ChevronDown className="w-3.5 h-3.5 shrink-0 opacity-60" />
       </button>
       {open && (
         <div className="absolute left-0 top-[calc(100%+4px)] z-50 rounded-xl shadow-2xl overflow-hidden"
@@ -253,7 +253,7 @@ function SearchableSelect({ value, onChange, options, placeholder, maxWidth: max
             <div className="relative">
               <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground" />
               <input ref={inputRef} value={query} onChange={e => setQuery(e.target.value)} placeholder="Buscar…"
-                className="w-full pl-8 pr-3 py-1.5 text-xs rounded-md bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50" />
+                className="w-full pl-8 pr-3 py-1.5 text-xs rounded-md bg-background border border-border text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50" />
             </div>
           </div>
           <div className="py-1 max-h-52 overflow-y-auto">
@@ -625,8 +625,8 @@ export default function Productos({ initialSource: initialSourceRaw }) {
   });
 
   // ── Shared helpers ─────────────────────────────────────────
-  const FILTER_CLS = "appearance-none pl-3 pr-8 py-2 text-sm rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:border-[#4ade80]/30 transition-colors cursor-pointer focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50";
-  const FILTER_INPUT_CLS = "pl-3 pr-3 py-2 text-sm rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:border-[#4ade80]/30 transition-colors focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50 w-24";
+  const FILTER_CLS = "appearance-none pl-3 pr-8 py-2 text-sm rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:border-[#4ade80]/30 transition-colors cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50";
+  const FILTER_INPUT_CLS = "pl-3 pr-3 py-2 text-sm rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground hover:border-[#4ade80]/30 transition-colors focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50 w-24";
   const SET_FILTER = (key) => (e) => { setAdvFilters(f => ({ ...f, [key]: e.target.value })); resetPage(); };
 
   const hayFiltrosEL  = search || Object.values(advFilters).some(v => v && v !== 'all');
@@ -763,7 +763,7 @@ export default function Productos({ initialSource: initialSourceRaw }) {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input value={search} onChange={e => { setSearch(e.target.value); resetPage(); }}
                     placeholder="Buscar por nombre, código o suministrador…"
-                    className="w-full pl-9 pr-9 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground hover:border-[#4ade80]/30 transition-colors focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50" />
+                    className="w-full pl-9 pr-9 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground hover:border-[#4ade80]/30 transition-colors focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50" />
                   {search && (
                     <button onClick={() => { setSearch(''); resetPage(); }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
@@ -966,7 +966,7 @@ export default function Productos({ initialSource: initialSourceRaw }) {
                     {syncFailures.map((f, i) => (
                       <div key={i} className="flex items-start gap-2 text-xs py-1 border-b border-[#e24b4a]/10 last:border-0">
                         <span className="text-foreground font-medium min-w-0 flex-1 line-clamp-1">{f.nombre || f.id_tienda}</span>
-                        <span className="text-[#e24b4a] flex-shrink-0 text-[10px] max-w-[50%] text-right">{f.msg}</span>
+                        <span className="text-[#e24b4a] shrink-0 text-[10px] max-w-[50%] text-right">{f.msg}</span>
                       </div>
                     ))}
                   </div>
@@ -983,7 +983,7 @@ export default function Productos({ initialSource: initialSourceRaw }) {
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <input value={search} onChange={e => { setSearch(e.target.value); resetPage(); }}
                     placeholder="Buscar por nombre, código, proveedor…"
-                    className="w-full pl-9 pr-9 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground hover:border-[#4ade80]/30 transition-colors focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50" />
+                    className="w-full pl-9 pr-9 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground hover:border-[#4ade80]/30 transition-colors focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50" />
                   {search && (
                     <button onClick={() => { setSearch(''); resetPage(); }}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">

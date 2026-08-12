@@ -172,7 +172,7 @@ export default function ImportarProductos({ productos, user, onClose, onImported
 
         {fileError && (
           <p className="text-xs text-[#E24B4A] mt-1.5 flex items-center gap-1">
-            <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" />
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
             {fileError}
           </p>
         )}

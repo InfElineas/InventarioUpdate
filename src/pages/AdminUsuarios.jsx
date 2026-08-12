@@ -106,7 +106,7 @@ export default function AdminUsuarios() {
       {pendientes.length > 0 && (
         <Card className="overflow-hidden" style={{ borderRadius: '12px', borderWidth: '0.5px', borderColor: 'color-mix(in srgb, #BA7517 30%, transparent)' }}>
           <div className="px-4 py-3 flex items-center gap-2.5" style={{ borderBottom: '0.5px solid color-mix(in srgb, #BA7517 20%, transparent)', background: 'color-mix(in srgb, #BA7517 5%, transparent)' }}>
-            <span className="w-2 h-2 rounded-full bg-[#BA7517] animate-pulse flex-shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-[#BA7517] animate-pulse shrink-0" />
             <span className="text-xs font-medium text-[#BA7517]">
               {pendientes.length} solicitud{pendientes.length !== 1 ? 'es' : ''} pendiente{pendientes.length !== 1 ? 's' : ''} de aprobación
             </span>
@@ -137,7 +137,7 @@ export default function AdminUsuarios() {
       {/* Sin solicitudes */}
       {pendientes.length === 0 && (
         <div className="flex items-center gap-3 px-4 py-3 bg-[#1D9E75]/5 rounded-lg text-xs text-[#1D9E75]" style={{ borderRadius: '8px' }}>
-          <UserCheck className="w-4 h-4 flex-shrink-0" />
+          <UserCheck className="w-4 h-4 shrink-0" />
           No hay solicitudes pendientes
         </div>
       )}
@@ -207,7 +207,7 @@ function UsuarioRow({ usuario, isPending, onApprove, onReject, onRoleChange, onD
 
   return (
     <div className="flex items-center gap-3 px-4 py-3 flex-wrap">
-      <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0 text-xs font-semibold text-foreground">
+      <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0 text-xs font-semibold text-foreground">
         {initials}
       </div>
 
@@ -219,14 +219,14 @@ function UsuarioRow({ usuario, isPending, onApprove, onReject, onRoleChange, onD
       </div>
 
       {role !== 'jefe_depto' && (
-        <span className="hidden md:block text-[11px] text-muted-foreground flex-shrink-0 w-20 text-right">
+        <span className="hidden md:block text-[11px] text-muted-foreground shrink-0 w-20 text-right">
           {usuario.created_date ? format(new Date(usuario.created_date), 'dd/MM/yy') : '—'}
         </span>
       )}
 
       {/* Rol */}
       <Select value={role} onValueChange={handleRoleChange}>
-        <SelectTrigger className="w-36 h-8 text-xs flex-shrink-0" style={{ borderRadius: '6px' }}>
+        <SelectTrigger className="w-36 h-8 text-xs shrink-0" style={{ borderRadius: '6px' }}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
@@ -241,7 +241,7 @@ function UsuarioRow({ usuario, isPending, onApprove, onReject, onRoleChange, onD
       {/* Departamento — solo visible cuando rol = jefe_depto */}
       {role === 'jefe_depto' && (
         <Select value={departamento} onValueChange={handleDeptChange}>
-          <SelectTrigger className="w-40 h-8 text-xs flex-shrink-0" style={{ borderRadius: '6px' }}>
+          <SelectTrigger className="w-40 h-8 text-xs shrink-0" style={{ borderRadius: '6px' }}>
             <SelectValue placeholder="Departamento..." />
           </SelectTrigger>
           <SelectContent>
@@ -252,7 +252,7 @@ function UsuarioRow({ usuario, isPending, onApprove, onReject, onRoleChange, onD
         </Select>
       )}
 
-      <div className="flex items-center gap-1.5 flex-shrink-0">
+      <div className="flex items-center gap-1.5 shrink-0">
         {isPending ? (
           <>
             <Button

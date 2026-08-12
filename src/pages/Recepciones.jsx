@@ -353,7 +353,7 @@ function RecepcionDetail({ recepcion, role, user, onUpdate, onDelete }) {
                 <p className="text-xs font-medium text-[#E24B4A] mt-0.5">Recomendado: devolver al proveedor</p>
               )}
             </div>
-            <div className="flex items-center gap-1.5 flex-shrink-0">
+            <div className="flex items-center gap-1.5 shrink-0">
               {d.diferencia !== 0 && (
                 <span className={`text-xs font-medium px-2 py-0.5 rounded ${d.diferencia > 0 ? 'bg-[#BA751714] text-[#BA7517]' : 'bg-[#E24B4A14] text-[#E24B4A]'}`} style={{ borderRadius: '4px' }}>
                   {d.diferencia > 0 ? '+' : ''}{d.diferencia}

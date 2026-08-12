@@ -1,8 +1,76 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+/* Reemplaza a tailwindcss-animate, que no soporta v4. Aporta animate-in /
+   animate-out / fade-* / zoom-* / slide-in-from-*, usadas por los componentes
+   de src/components/ui. */
+@import 'tw-animate-css';
+
+/* El tema de Tailwind 4 vive aquí, no en tailwind.config.js (eliminado).
+   `inline` es lo que hace que las utilidades emitan hsl(var(--x)) en vez de una
+   indirección extra, así que el color se resuelve en el elemento y sigue el
+   cambio de tema: main.jsx pone la clase .dark o .light en documentElement, que
+   es el mismo :root donde se declaran los tripletes HSL de abajo.
+
+   No hay `darkMode: ["class"]` ni @custom-variant dark porque el proyecto no usa
+   ni una variante `dark:` — el tema se cambia intercambiando las variables. */
+@theme inline {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-purple: hsl(var(--purple));
+  --color-purple-foreground: hsl(var(--purple-foreground));
+  --color-neutral: hsl(var(--neutral));
+  --color-neutral-foreground: hsl(var(--neutral-foreground));
+  --color-coral: hsl(var(--coral));
+  --color-coral-foreground: hsl(var(--coral-foreground));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+}
 
 /* ─── SalesOps Dark Theme ────────────────────────────────────
    Base: pure black canvas · Green #4ade80 as sole accent
@@ -10,8 +78,9 @@
 
 @layer base {
   :root {
-    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, 'Fira Code', monospace;
+    /* --font-sans / --font-mono viven ahora en @theme: en Tailwind 4 esos son
+       justo los nombres de las claves del tema, así que declararlos aquí además
+       sería tener dos fuentes para lo mismo. */
 
     /* Canvas */
     --background:          0 0% 4%;      /* #0a0a0a */

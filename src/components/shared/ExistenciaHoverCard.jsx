@@ -89,7 +89,7 @@ export default function ExistenciaHoverCard({ rect, nombre, data, isLoading, err
           </span>
         ) : error ? (
           <span className="flex items-start gap-2 text-xs text-[#e24b4a]">
-            <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0 mt-px" />
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0 mt-px" />
             <span className="line-clamp-2">{error.message}</span>
           </span>
         ) : !ex ? (

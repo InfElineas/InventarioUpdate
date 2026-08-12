@@ -38,7 +38,7 @@ function MovimientoItem({ mov }) {
       {/* vertical line */}
       <div className="absolute left-4 top-8 bottom-0 w-px bg-border last:hidden" />
 
-      <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${tipo.bg}`}>
+      <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center ${tipo.bg}`}>
         <Icon className={`w-3.5 h-3.5 ${tipo.color}`} />
       </div>
 
@@ -50,7 +50,7 @@ function MovimientoItem({ mov }) {
             </p>
             <p className="text-[11px] text-muted-foreground mt-0.5">{mov.usuario_nombre || mov.usuario_id}</p>
           </div>
-          <div className="text-right flex-shrink-0">
+          <div className="text-right shrink-0">
             <p className="text-[11px] text-muted-foreground">{fechaFormateada}</p>
             {diferencia !== null && diferencia !== 0 && (
               <span className={`text-xs font-medium flex items-center gap-0.5 justify-end mt-0.5 ${diferencia > 0 ? 'text-[#1D9E75]' : 'text-[#E24B4A]'}`}>
@@ -63,7 +63,7 @@ function MovimientoItem({ mov }) {
 
         <div className="flex items-center gap-1.5 mt-1.5 text-xs text-muted-foreground">
           <span className="bg-secondary px-1.5 py-0.5 rounded text-[11px]">{mov.valor_anterior || '—'}</span>
-          <ArrowRight className="w-3 h-3 flex-shrink-0" />
+          <ArrowRight className="w-3 h-3 shrink-0" />
           <span className="bg-secondary px-1.5 py-0.5 rounded text-[11px] font-medium text-foreground">{mov.valor_nuevo || '—'}</span>
         </div>
 
@@ -137,7 +137,7 @@ export default function ProductoHistorial({ productoId }) {
             {invEventos.map(ev => (
               <div key={ev.id} className="flex gap-3 pb-4 last:pb-0 relative">
                 <div className="absolute left-4 top-8 bottom-0 w-px bg-border" />
-                <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center ${ev.resultado === 'ok' ? 'bg-[#1D9E75]/10' : ev.resultado === 'faltante' ? 'bg-[#E24B4A]/10' : 'bg-[#BA7517]/10'}`}>
+                <div className={`w-8 h-8 rounded-full shrink-0 flex items-center justify-center ${ev.resultado === 'ok' ? 'bg-[#1D9E75]/10' : ev.resultado === 'faltante' ? 'bg-[#E24B4A]/10' : 'bg-[#BA7517]/10'}`}>
                   <ClipboardCheck className={`w-3.5 h-3.5 ${ev.resultado === 'ok' ? 'text-[#1D9E75]' : ev.resultado === 'faltante' ? 'text-[#E24B4A]' : 'text-[#BA7517]'}`} />
                 </div>
                 <div className="flex-1 min-w-0 pt-0.5">
@@ -146,7 +146,7 @@ export default function ProductoHistorial({ productoId }) {
                       <p className="text-xs font-medium">Conteo INV</p>
                       <p className="text-[11px] text-muted-foreground">{ev.especialista_nombre}</p>
                     </div>
-                    <p className="text-[11px] text-muted-foreground flex-shrink-0">
+                    <p className="text-[11px] text-muted-foreground shrink-0">
                       {ev.fecha ? format(new Date(ev.fecha), "d MMM yyyy", { locale: es }) : '—'}
                     </p>
                   </div>

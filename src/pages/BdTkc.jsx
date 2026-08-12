@@ -75,7 +75,7 @@ function ProductImg({ fotos, nombre }) {
   const src = Array.isArray(fotos) && fotos.length > 0 ? fotos[0] : null
   if (!src || err) {
     return (
-      <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center flex-shrink-0">
+      <div className="w-10 h-10 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
         <Package className="w-4 h-4 text-[#333]" />
       </div>
     )
@@ -85,7 +85,7 @@ function ProductImg({ fotos, nombre }) {
       src={src}
       alt={nombre}
       onError={() => setErr(true)}
-      className="w-10 h-10 rounded-lg object-cover flex-shrink-0 bg-muted border border-border"
+      className="w-10 h-10 rounded-lg object-cover shrink-0 bg-muted border border-border"
     />
   )
 }
@@ -101,7 +101,7 @@ function FailureHistoryRecord({ record, onRetry, isPending }) {
           <span className="text-[#e24b4a] font-medium whitespace-nowrap">{record.fallidos} fallidos</span>
           <span className="text-muted-foreground truncate">{fmt(record.fecha)}</span>
         </div>
-        <div className="flex items-center gap-1.5 flex-shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
           {record.failures?.length > 0 && (
             <button
               onClick={() => onRetry(record.failures)}
@@ -127,7 +127,7 @@ function FailureHistoryRecord({ record, onRetry, isPending }) {
           ) : record.failures.map((f, i) => (
             <div key={i} className="flex items-start gap-2 text-xs py-1 border-b border-[#e24b4a]/10 last:border-0">
               <span className="text-foreground font-medium min-w-0 flex-1 line-clamp-1">{f.nombre || f.id_tienda || f.codigo}</span>
-              <span className="text-[#e24b4a] flex-shrink-0 text-[10px] max-w-[55%] text-right">{f.msg}</span>
+              <span className="text-[#e24b4a] shrink-0 text-[10px] max-w-[55%] text-right">{f.msg}</span>
             </div>
           ))}
         </div>
@@ -293,7 +293,7 @@ export default function BdTkc() {
               value={almacenSel}
               onChange={e => { setAlmacenSel(e.target.value); setFilterEstado('all') }}
               disabled={loadingAlmacenes && almacenes.length === 0}
-              className="appearance-none pl-3 pr-8 py-2 text-sm rounded-lg bg-card border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50 cursor-pointer"
+              className="appearance-none pl-3 pr-8 py-2 text-sm rounded-lg bg-card border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50 cursor-pointer"
             >
               <option value="">— Seleccionar almacén —</option>
               {almacenes.map(a => <option key={a} value={a}>Almacén {a}</option>)}
@@ -313,7 +313,7 @@ export default function BdTkc() {
             </button>
           ) : (
             <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#facc15]/10 border border-[#facc15]/20 text-[#facc15] text-xs">
-              <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+              <AlertTriangle className="w-4 h-4 shrink-0" />
               <span className="hidden sm:inline">DB externa no configurada</span>
             </div>
           )}
@@ -362,7 +362,7 @@ export default function BdTkc() {
                 {syncFailures.map((f, i) => (
                   <div key={i} className="flex items-start gap-2 text-xs py-1 border-b border-[#e24b4a]/10 last:border-0">
                     <span className="text-foreground font-medium min-w-0 flex-1 line-clamp-1">{f.nombre || f.id_tienda}</span>
-                    <span className="text-[#e24b4a] flex-shrink-0 text-[10px] max-w-[50%] text-right">{f.msg}</span>
+                    <span className="text-[#e24b4a] shrink-0 text-[10px] max-w-[50%] text-right">{f.msg}</span>
                   </div>
                 ))}
               </div>
@@ -429,13 +429,13 @@ export default function BdTkc() {
                 value={search}
                 onChange={e => { setSearch(e.target.value); resetPage() }}
                 placeholder="Buscar por nombre, código o suministrador…"
-                className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+                className="w-full pl-9 pr-3 py-2 text-sm rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
               />
             </div>
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value)}
-              className="px-3 py-2 text-sm rounded-lg bg-card border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50"
+              className="px-3 py-2 text-sm rounded-lg bg-card border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50"
             >
               <option value="prioridad">Por prioridad</option>
               <option value="nombre">Por nombre</option>

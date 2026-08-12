@@ -91,7 +91,7 @@ function KPIBreakdownModal({ metricKey, breakdown, onClose }) {
     .sort((a, b) => (b[cfg.metric] ?? 0) - (a[cfg.metric] ?? 0))
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs" onClick={onClose}>
       <div
         className="bg-card border border-border rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden"
         onClick={e => e.stopPropagation()}
@@ -121,7 +121,7 @@ function KPIBreakdownModal({ metricKey, breakdown, onClose }) {
                   </div>
                   <p className="text-[10px] text-muted-foreground mt-0.5">{pct.toFixed(1)}% del total de su almacén</p>
                 </div>
-                <p className="ml-4 text-xl font-bold tabular-nums flex-shrink-0" style={{ color: cfg.color }}>
+                <p className="ml-4 text-xl font-bold tabular-nums shrink-0" style={{ color: cfg.color }}>
                   {val.toLocaleString()}
                 </p>
               </div>
@@ -181,13 +181,13 @@ function PeriodSelector({ period, setPeriod, customFrom, setCustomFrom, customTo
             <input
               type="date" value={customFrom}
               onChange={e => setCustomFrom(e.target.value)}
-              className="px-2 py-1 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#60a5fa]/50"
+              className="px-2 py-1 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#60a5fa]/50"
             />
             <span className="text-xs text-muted-foreground">→</span>
             <input
               type="date" value={customTo}
               onChange={e => setCustomTo(e.target.value)}
-              className="px-2 py-1 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-none focus:ring-1 focus:ring-[#60a5fa]/50"
+              className="px-2 py-1 text-xs rounded-lg bg-background border border-border text-foreground focus:outline-hidden focus:ring-1 focus:ring-[#60a5fa]/50"
             />
             {(customFrom || customTo) && (
               <button onClick={() => { setCustomFrom(''); setCustomTo('') }}
@@ -229,7 +229,7 @@ function EstadoTiendaTable({ breakdown, total }) {
               <tr key={est} className="hover:bg-white/[0.02]">
                 <td className="px-4 py-2.5">
                   <span className="inline-flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
+                    <span className="w-2 h-2 rounded-full shrink-0" style={{ background: color }} />
                     <span className="text-xs font-medium">{est}</span>
                   </span>
                 </td>
@@ -279,7 +279,7 @@ function VencimientosWidget({ lotes }) {
         ) : filtered.map(l => (
           <div key={l.id} className="px-4 py-2.5 flex items-start justify-between gap-2">
             <p className="text-xs line-clamp-2 text-foreground flex-1">{l.producto_nombre}</p>
-            <div className="text-right flex-shrink-0">
+            <div className="text-right shrink-0">
               <p className="text-xs font-mono">{l.fecha_vencimiento}</p>
               <p className="text-[10px] text-muted-foreground">EF: {l.cantidad}</p>
             </div>
@@ -567,7 +567,7 @@ export default function Dashboard() {
             <select
               value={almacen}
               onChange={e => setAlmacen(e.target.value)}
-              className="appearance-none pl-3 pr-8 py-1.5 text-sm rounded-lg bg-muted border border-border text-foreground font-medium focus:outline-none focus:ring-1 focus:ring-[#4ade80]/50 cursor-pointer"
+              className="appearance-none pl-3 pr-8 py-1.5 text-sm rounded-lg bg-muted border border-border text-foreground font-medium focus:outline-hidden focus:ring-1 focus:ring-[#4ade80]/50 cursor-pointer"
             >
               <option value="">— Todos los almacenes —</option>
               {almacenes.map(a => <option key={a} value={a}>Almacén {a}</option>)}

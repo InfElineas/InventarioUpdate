@@ -54,7 +54,7 @@ export default function BottomNav({ role: roleRaw, pendingCounts: pendingCountsR
           <Link
             key={item.path}
             to={item.path}
-            className="relative flex flex-col items-center justify-center gap-0.5 flex-shrink-0 transition-colors"
+            className="relative flex flex-col items-center justify-center gap-0.5 shrink-0 transition-colors"
             style={{
               minWidth: '60px',
               padding: '6px 8px 4px',
