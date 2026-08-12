@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import * as XLSX from 'xlsx';
+import { downloadXlsx, objectsToAoa } from '@/lib/spreadsheet';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -89,23 +89,31 @@ export default function ReporteVencimientos({ lotes: lotesRaw }) {
   const totalLotes = chartData.reduce((s, d) => s + d.lotes, 0);
   const totalValor = chartData.reduce((s, d) => s + d.valor, 0);
 
-  function exportXLSX() {
-    const wb = XLSX.utils.book_new();
-
+  function buildExportSheets() {
     // Hoja resumen
     const resumenData = [
       ['Categoría', 'Lotes', 'Valor Total ($)'],
       ...chartData.map(d => [d.label, d.lotes, d.valor]),
       ['TOTAL', totalLotes, parseFloat(totalValor.toFixed(2))],
     ];
-    const wsResumen = XLSX.utils.aoa_to_sheet(resumenData);
-    XLSX.utils.book_append_sheet(wb, wsResumen, 'Resumen');
+    return [
+      { name: 'Resumen', rows: resumenData },
+      { name: 'Detalle', rows: objectsToAoa(detalleRows) },
+    ];
+  }
 
-    // Hoja detalle
-    const wsDetalle = XLSX.utils.json_to_sheet(detalleRows);
-    XLSX.utils.book_append_sheet(wb, wsDetalle, 'Detalle');
-
-    XLSX.writeFile(wb, `reporte_vencimientos_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  // Con xlsx esto era sincrono; hucre genera los bytes de forma asincrona. Al ir
+  // enganchada directa al onClick, sin este catch un fallo se perderia como
+  // unhandled rejection sin que el usuario ni la consola se enteren.
+  async function exportXLSX() {
+    try {
+      await downloadXlsx(
+        `reporte_vencimientos_${new Date().toISOString().slice(0, 10)}.xlsx`,
+        buildExportSheets(),
+      );
+    } catch (err) {
+      console.error('export xlsx error:', err);
+    }
   }
 
   return (

@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import * as XLSX from 'xlsx'
+import { readSheetNames, readSheetObjects } from '@/lib/spreadsheet'
 import { supabase } from '@/api/supabaseClient'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -162,7 +162,10 @@ function mapMermaRow(row, idMap, codigoMap) {
 // ── Componente principal ──────────────────────────────────────
 export default function TabImportar() {
   const [file,          setFile]          = useState(null)
-  const [wb,            setWb]            = useState(null)
+  // El ArrayBuffer del fichero, no el workbook ya parseado: hucre lee la hoja a
+  // partir del buffer (readSheetObjects), y el buffer sigue usable después de
+  // leerlo, así que sirve para cambiar de hoja sin volver a abrir el fichero.
+  const [buf,           setBuf]           = useState(null)
   const [sheets,        setSheets]        = useState([])
   const [selectedSheet, setSelectedSheet] = useState(null)
   const [preview,       setPreview]       = useState([])
@@ -183,25 +186,22 @@ export default function TabImportar() {
     setResult(null); setDetectedCols([])
     try {
       const ab = await f.arrayBuffer()
-      const workbook = XLSX.read(ab, { type: 'array', cellDates: true })
-      setWb(workbook); setSheets(workbook.SheetNames)
-      const known = workbook.SheetNames.find(n => n === 'BD Ajuste I-F' || n === 'BD Merma')
-      if (known) await parseSheet(workbook, known)
+      const sheetNames = await readSheetNames(ab)
+      setBuf(ab); setSheets(sheetNames)
+      const known = sheetNames.find(n => n === 'BD Ajuste I-F' || n === 'BD Merma')
+      if (known) await parseSheet(ab, known)
       else setStatus('pick_sheet')
     } catch { setStatus('error') }
   }
 
-  async function parseSheet(workbook, sheetName) {
+  async function parseSheet(input, sheetName) {
     setSelectedSheet(sheetName); setStatus('parsing')
     setAllRows([]); setPreview([]); setMatchStats(null)
 
-    const sheet = workbook.Sheets[sheetName]
-    const rows  = XLSX.utils.sheet_to_json(sheet, { defval: '', cellDates: true })
-
-    // Guardar columnas reales para diagnóstico
-    const firstRow = rows[0] || {}
-    const colNames = Object.keys(firstRow)
-    setDetectedCols(colNames)
+    // headers los da hucre directamente, en vez de deducirlos de
+    // Object.keys(rows[0]) como hacía sheet_to_json.
+    const { rows, headers } = await readSheetObjects(input, sheetName)
+    setDetectedCols(headers)
 
     // Filtrar filas vacías usando lookup normalizado
     const dataRows = rows.filter(r => {
@@ -265,7 +265,7 @@ export default function TabImportar() {
   }
 
   function reset() {
-    setFile(null); setWb(null); setSheets([]); setSelectedSheet(null)
+    setFile(null); setBuf(null); setSheets([]); setSelectedSheet(null)
     setPreview([]); setAllRows([]); setMatchStats(null); setDetectedCols([])
     setStatus('idle'); setProgress(0); setResult(null)
     if (fileRef.current) fileRef.current.value = ''
@@ -321,7 +321,7 @@ export default function TabImportar() {
           <div className="flex flex-wrap gap-2">
             {sheets.map(name => (
               <Button key={name} variant="outline" size="sm" style={{ borderRadius: '8px' }}
-                onClick={() => parseSheet(wb, name)}>{name}</Button>
+                onClick={() => parseSheet(buf, name)}>{name}</Button>
             ))}
           </div>
           <Button variant="ghost" size="sm" onClick={reset} style={{ borderRadius: '8px' }}>
