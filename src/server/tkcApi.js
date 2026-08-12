@@ -15,7 +15,7 @@ import { fetchExistencia } from '../services/tkc/submayor.js'
 import { getExistencias } from '../services/tkc/existencias.js'
 import { keyToTkcValue } from '../services/tkc/warehouses.js'
 
-export const TKC_API_ENDPOINTS = {
+const TKC_API_ENDPOINTS = {
   inventario: '/api/tkc/inventario',
   existencia: '/api/tkc/existencia',
   existencias: '/api/tkc/existencias',

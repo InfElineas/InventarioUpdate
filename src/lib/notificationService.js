@@ -69,7 +69,7 @@ async function push(email, tipo, titulo, mensaje, dedupKey) {
 }
 
 // ── Notificación nativa del navegador ──────────────────────
-export function fireBrowser(titulo, mensaje) {
+function fireBrowser(titulo, mensaje) {
   if (typeof window === 'undefined') return;
   if (!('Notification' in window)) return;
   if (Notification.permission !== 'granted') return;

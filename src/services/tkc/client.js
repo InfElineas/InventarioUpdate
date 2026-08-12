@@ -44,11 +44,6 @@ async function ensureCookie(config, force) {
 }
 
 /** Descarta la cookie cacheada (útil en tests y al rotar credenciales). */
-export function resetSession() {
-  cachedCookie = null
-  loginPromise = null
-}
-
 function looksLikeExpiredSession(response) {
   if (response.status === 401 || response.status === 403) return true
   // Una sesión caducada devuelve el HTML del login en vez de JSON.

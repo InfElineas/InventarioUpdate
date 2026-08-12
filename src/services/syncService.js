@@ -98,13 +98,6 @@ export async function fetchAlmacenes() {
   return unique
 }
 
-export function getAlmacenNombre(idTkc) {
-  return _almacenesMetaCache?.[String(idTkc)] || `Almacén ${idTkc}`
-}
-
-export function clearAlmacenesCache() {
-  _almacenesMetaCache = null
-}
 
 // ── Mapeo invGlobal → productos
 function mapRow(row, almacenNum) {
@@ -142,20 +135,6 @@ export function deduplicateByCodigo(rows) {
     if (m.id_tienda && !prev.id_tienda) winner.set(c, m)  // prefiere con id_tienda
   }
   return rows.filter(m => !m.codigo_producto || winner.get(m.codigo_producto) === m)
-}
-
-// ── Consulta directa sin sync: fetch + map en una sola llamada pública
-export async function fetchProductosExterno(almacenNum) {
-  if (!isExternaConfigured) throw new Error('DB externa no configurada')
-  if (!almacenNum) return []
-  const raw = await fetchPaginado(almacenNum)
-  const rowMap = new Map()
-  for (const r of raw) {
-    const m = mapRow(r, almacenNum)
-    const key = m.id_tienda ?? (m.codigo_producto ? `c:${m.codigo_producto}` : null)
-    if (key) rowMap.set(key, m)
-  }
-  return deduplicateByCodigo([...rowMap.values()])
 }
 
 // ── Fetch paginado del almacén desde invGlobal

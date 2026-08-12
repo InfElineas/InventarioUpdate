@@ -13,7 +13,6 @@ export default [
       "src/components/**/*.{js,mjs,cjs,jsx}",
       "src/pages/**/*.{js,mjs,cjs,jsx}",
       "src/lib/**/*.{js,mjs,cjs,jsx}",
-      "src/hooks/**/*.{js,mjs,cjs,jsx}",
       "src/Layout.jsx",
     ],
     // Codigo generado por shadcn: se actualiza regenerandolo, no editandolo.

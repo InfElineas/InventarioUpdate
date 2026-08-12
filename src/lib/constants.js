@@ -59,7 +59,7 @@ export const CLASIF_MERMA_SIN_FACT = [
   'Reclasificación de calidad',
 ];
 
-export const CLASIF_MERMA_CON_FACT = [
+const CLASIF_MERMA_CON_FACT = [
   'Mal estado — Roto',
   'Mal estado — Dañado',
   'Mal estado — Húmedo',
@@ -129,17 +129,6 @@ export const MOTIVOS_RECONTEO = [
 ];
 
 // Navegación
-export const NAV_ITEMS = [
-  { path: '/', label: 'Dashboard', icon: 'LayoutDashboard' },
-  { path: '/inventario', label: 'Inventario', icon: 'ClipboardList' },
-  { path: '/mermas', label: 'Mermas', icon: 'TrendingDown' },
-  { path: '/lotes', label: 'Vencimientos', icon: 'Clock' },
-  { path: '/recepciones', label: 'Recepciones', icon: 'PackageOpen' },
-  { path: '/anuncios', label: 'Anuncios', icon: 'Megaphone' },
-  { path: '/reportes', label: 'Reportes', icon: 'BarChart3' },
-  { path: '/auditoria', label: 'Auditoría', icon: 'ShieldCheck' },
-];
-
 // Clasificación FACT (Ajuste TKC)
 export const CLASIF_FACT = [
   'Faltante Inventario',

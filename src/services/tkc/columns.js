@@ -47,8 +47,6 @@ export const TKC_SORT_COLUMNS = {
   catalogo: 22,
 }
 
-export const TKC_SORT_KEYS = Object.keys(TKC_SORT_COLUMNS)
-
 /** Clave de la columna de imagen: no ordenable, no forma parte de TKC_SORT_COLUMNS. */
 export const IMAGE_COL = 'imagen'
 
