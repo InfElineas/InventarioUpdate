@@ -10,19 +10,9 @@ import { useAlmacen, filterAlmacenesByConfig } from '@/lib/useAlmacen'
 import { notifToast } from '@/lib/notifToast'
 import { RefreshCw, AlertTriangle, Search, Database, ChevronDown, Package, History } from 'lucide-react'
 import ProductHoverCard from '@/components/shared/ProductHoverCard'
+import { calcEstadoAnuncio } from '@/lib/anuncioEstado'
 
 // ── Estado Anuncio ──────────────────────────────────────────
-function calcEstadoAnuncio(idTienda, ef, a, t) {
-  const hasId = idTienda && String(idTienda).trim() !== ''
-  if (!hasId && ef === 0)           return 'SIN ID EF=0'
-  if (!hasId && ef > 0)             return 'SIN ID EF>0'
-  if (hasId && a === 0 && t > 6)   return 'DESACTIVADO MUERTO EF=0'
-  if (hasId && t === 0 && ef > 10) return 'DESACTIVADO MUERTO EF>0'
-  if (hasId && ef === 0)           return 'DESACTIVADO EF=0'
-  if (hasId && ef > 0)             return 'ACTIVADO'
-  return 'DESACTIVADO'
-}
-
 function calcEstadoTienda(idTienda, ef, a, t) {
   const hasId = idTienda && String(idTienda).trim() !== ''
   if (!hasId && ef === 0)         return { estado: 'SIN ID',         prio: 10 }
